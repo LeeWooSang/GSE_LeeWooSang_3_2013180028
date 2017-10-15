@@ -16,6 +16,12 @@
     <Filter Include="소스 파일\Shaders">
       <UniqueIdentifier>{aa86e47f-445f-4440-9a76-173363b46c4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Renderer">
+      <UniqueIdentifier>{f6ee2db4-426b-4b7b-acd6-9637735961a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Object">
+      <UniqueIdentifier>{14ae2915-085a-4e72-b9ef-747f70a749fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -27,18 +33,24 @@
     <ClInclude Include="targetver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>소스 파일\Object</Filter>
+    </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="Object.cpp">
+      <Filter>소스 파일\Object</Filter>
     </ClCompile>
     <ClCompile Include="SimpleGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
+      <Filter>소스 파일\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

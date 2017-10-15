@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-
+#include "Object.h"
 #include "Dependencies\glew.h"
 
 class Renderer

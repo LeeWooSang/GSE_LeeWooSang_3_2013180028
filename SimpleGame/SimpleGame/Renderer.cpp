@@ -6,9 +6,9 @@ Renderer::Renderer(int windowSizeX, int windowSizeY)
 	Initialize(windowSizeX, windowSizeY);
 }
 
-
 Renderer::~Renderer()
 {
+
 }
 
 void Renderer::Initialize(int windowSizeX, int windowSizeY)
@@ -19,7 +19,7 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 
 	//Load shaders
 	m_SolidRectShader = CompileShaders("./Shaders/SolidRect.vs", "./Shaders/SolidRect.fs");
-	
+
 	//Create VBOs
 	CreateVertexBufferObjects();
 
