@@ -23,6 +23,7 @@ Object::~Object(void)
 
 bool Object::Init()
 {
+	m_fx, m_fy, m_fz, m_fsize, m_color_r, m_color_g, m_color_b, m_color_a;
 	return true;
 }
 

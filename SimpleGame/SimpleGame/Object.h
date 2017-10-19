@@ -1,6 +1,7 @@
 
 #pragma once
 #include "Renderer.h"
+#include "SceneManager.h"
 #include <iostream>
 using namespace std;
 
