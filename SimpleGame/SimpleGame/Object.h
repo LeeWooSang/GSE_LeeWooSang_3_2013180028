@@ -1,8 +1,7 @@
 
 #pragma once
-#include "Renderer.h"
-#include "SceneManager.h"
 #include <iostream>
+
 using namespace std;
 
 class Object
@@ -12,9 +11,9 @@ public:
 	virtual ~Object(void);
 
 public:
-	virtual bool Init();
-	virtual void Output(void);
-	virtual void Update(void);
+	bool Init();
+	void Output(void);
+	void Update(void);
 
 public:
 	void Get_X(float x)			{ m_fx = x; }
