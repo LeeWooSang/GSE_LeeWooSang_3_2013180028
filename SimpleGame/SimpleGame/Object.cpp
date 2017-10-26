@@ -3,6 +3,8 @@
 
 Object::Object(float x, float y, float z, float size, float R, float G, float B, float A)
 {
+	srand((unsigned)(time(NULL)));
+
 	m_fx = x;
 	m_fy = y;
 	m_fz = z;

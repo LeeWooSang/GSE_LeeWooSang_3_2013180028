@@ -18,30 +18,24 @@ but WITHOUT ANY WARRANTY.
 
 using namespace std;
 
-Renderer *g_Renderer = NULL;
-Object* pObject = new Object(0.0f, 0.0f, 0.0f, 50.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-SceneManager* pSceneManger = new SceneManager;
-
+//Renderer *g_Renderer = NULL;
+Object* pObject = new Object(0.0f, 0.0f, 0.0f, 25.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+SceneManager* pSceneManager = NULL;
 
 bool ButtonDown = false;
+int iButton_Count = 0;
 void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
-	g_Renderer->DrawSolidRect(pObject->Set_X(), pObject->Set_Y(), pObject->Set_Z(), pObject->Set_Size(), 
-		pObject->Set_Color_R(), pObject->Set_Color_G(), pObject->Set_Color_B(), pObject->Set_Color_A());
-
-	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
+	for (int i = 0; i < PLAYER_OBJECTS_COUNT; ++i)
 	{
-		g_Renderer->DrawSolidRect(pSceneManger->m_pObject[i]->Set_X(), pSceneManger->m_pObject[i]->Set_Y(), pSceneManger->m_pObject[i]->Set_Z(),
-			pSceneManger->m_pObject[i]->Set_Size(),
-			pSceneManger->m_pObject[i]->Set_Color_R(), pSceneManger->m_pObject[i]->Set_Color_G(),
-			pSceneManger->m_pObject[i]->Set_Color_B(), pSceneManger->m_pObject[i]->Set_Color_A());
+		pSceneManager->Draw_Player();
 	}
 
 	pObject->Update();
-	pSceneManger->Update();
+	pSceneManager->Update();
 
 	glutSwapBuffers();
 }
@@ -56,7 +50,10 @@ void MouseInput(int button, int state, int x, int y)
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 	{ 
 		ButtonDown = true;
-		
+		++iButton_Count;
+
+		pSceneManager->Get_Object_Count(iButton_Count);
+
 		pObject->Get_X(x - 250.0);
 		pObject->Get_Y(250.0 - y);
 	}
@@ -99,12 +96,7 @@ int main(int argc, char **argv)
 	}
 
 	// Initialize Renderer
-	g_Renderer = new Renderer(500, 500);
-
-	if (!g_Renderer->IsInitialized())
-	{
-		std::cout << "Renderer could not be initialized.. \n";
-	}
+	pSceneManager = new SceneManager(500, 500);
 
 	glutDisplayFunc(RenderScene);
 	glutIdleFunc(Idle);
@@ -114,11 +106,12 @@ int main(int argc, char **argv)
 
 	glutMainLoop();
 
-	delete g_Renderer;
+	delete pSceneManager;
+	pSceneManager = NULL;
+
 	delete pObject;
 	pObject = NULL;
-	delete pSceneManger;
-	pSceneManger = NULL;
+
     return 0;
 }
 
