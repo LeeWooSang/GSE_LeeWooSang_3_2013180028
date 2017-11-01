@@ -9,13 +9,11 @@ using namespace std;
 class Object
 {
 public:
-	explicit Object(float x, float y, float z, float size, float R, float G, float B, float A);
+	explicit Object(float x, float y);
 	virtual ~Object(void);
 
 public:
-	bool Init();
-	void Output(void);
-	void Update(void);
+	void Update(float elapsedTime);
 
 public:
 	void Get_X(float x)			{ m_fx = x; }
@@ -42,15 +40,19 @@ public:
 	void Get_Color_A(float A) { m_color_a = A; }
 	float Set_Color_A()			{ return m_color_a; }
 
-private:
-	void Release(void);
+	float Set_Life(void)			{ return m_fLife; }
+	float Set_LifeTime(void)	{ return m_fLifeTime; }
+
 
 private:
 	float m_fx, m_fy, m_fz;
+	float m_vector_fx, m_vector_fy;
 	float m_fsize;
 	float m_color_r, m_color_g, m_color_b, m_color_a;
 
 	float m_fSpeed;
-	int m_iTime;
 	int m_iDir;
+
+	float m_fLife;
+	float m_fLifeTime;
 };

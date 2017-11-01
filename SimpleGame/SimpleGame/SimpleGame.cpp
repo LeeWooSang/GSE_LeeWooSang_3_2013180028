@@ -9,6 +9,7 @@ but WITHOUT ANY WARRANTY.
 */
 
 #include "stdafx.h"
+#include <Windows.h>
 #include <iostream>
 #include "Dependencies\glew.h"
 #include "Dependencies\freeglut.h"
@@ -18,24 +19,28 @@ but WITHOUT ANY WARRANTY.
 
 using namespace std;
 
-//Renderer *g_Renderer = NULL;
-Object* pObject = new Object(0.0f, 0.0f, 0.0f, 25.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+//Object* pObject = new Object(0.0f, 0.0f, 0.0f, 25.0f, 1.0f, 0.0f, 0.0f, 1.0f);
 SceneManager* pSceneManager = NULL;
-
+DWORD g_prevTime = 0;
 bool ButtonDown = false;
-int iButton_Count = 0;
+int ButtonCount = 0;
+
 void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
-	for (int i = 0; i < PLAYER_OBJECTS_COUNT; ++i)
+	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
-		pSceneManager->Draw_Player();
+		pSceneManager->Draw();
 	}
 
-	pObject->Update();
-	pSceneManager->Update();
+	DWORD currTime = timeGetTime();
+	DWORD elapsedTime = currTime - g_prevTime;
+	g_prevTime = currTime;
+
+	pSceneManager->Update((float)elapsedTime);
+	pSceneManager->Draw();
 
 	glutSwapBuffers();
 }
@@ -48,20 +53,23 @@ void Idle(void)
 void MouseInput(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
-	{ 
 		ButtonDown = true;
-		++iButton_Count;
-
-		pSceneManager->Get_Object_Count(iButton_Count);
-
-		pObject->Get_X(x - 250.0);
-		pObject->Get_Y(250.0 - y);
-	}
 
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
 	{
 		if (ButtonDown)
-			cout << "마우스 클릭 됨" << endl;
+		{
+			if (ButtonCount <= MAX_OBJECTS_COUNT - 1)
+			{
+				++ButtonCount;
+				pSceneManager->Get_Object_Count(ButtonCount);
+				pSceneManager->Get_Index_Count(ButtonCount);
+				pSceneManager->Init(x - 250, -y + 250);
+
+				cout << "\n마우스 클릭 됨\t" << "오브젝트 개수 : " << ButtonCount << endl;
+			}
+		}
+		ButtonDown = false;
 	}
 	RenderScene();
 }
@@ -104,13 +112,14 @@ int main(int argc, char **argv)
 	glutMouseFunc(MouseInput);
 	glutSpecialFunc(SpecialKeyInput);
 
+
+	g_prevTime = timeGetTime();
+
 	glutMainLoop();
+
 
 	delete pSceneManager;
 	pSceneManager = NULL;
-
-	delete pObject;
-	pObject = NULL;
 
     return 0;
 }

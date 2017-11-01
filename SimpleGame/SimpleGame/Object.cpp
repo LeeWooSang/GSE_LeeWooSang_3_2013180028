@@ -1,58 +1,62 @@
 #include "stdafx.h"
 #include "Object.h"
 
-Object::Object(float x, float y, float z, float size, float R, float G, float B, float A)
+Object::Object(float x, float y)
 {
-	srand((unsigned)(time(NULL)));
-
 	m_fx = x;
 	m_fy = y;
-	m_fz = z;
-	m_fsize = size;
-	m_color_r = R;
-	m_color_g = G;
-	m_color_b = B;
-	m_color_a = A;
+	m_fz = 0.0;
+	m_fsize = 25.0;
+	m_color_r = 1.0;
+	m_color_g = 0.0;
+	m_color_b = 0.0;
+	m_color_a = 1.0;
 
-	m_fSpeed = 0.1;
-	m_iTime = 1;
-	m_iDir = 1;
+	m_vector_fx = 200.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
+	m_vector_fy = 200.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
+
+	m_fSpeed = 0.01;
+	m_fLife = 10000.f;
+	m_fLifeTime = 100000.f;
 }
 
 Object::~Object(void)
 {
 }
 
-bool Object::Init()
+void Object::Update(float elapsedTime)
 {
-	m_fx, m_fy, m_fz, m_fsize, m_color_r, m_color_g, m_color_b, m_color_a;
-	return true;
-}
+	float elapsedTimeInSecond = elapsedTime / 1000.f;
 
-void Object::Output(void)
-{
+	m_fx = m_fx+ m_fSpeed * elapsedTime * m_vector_fx;
+	m_fy = m_fy + m_fSpeed * elapsedTime * m_vector_fy;
 
-}
-
-void Object::Update(void)
-{
-	m_fx = m_fx+ m_fSpeed * m_iTime * m_iDir;
-
-	//cout << m_fx << endl;
 	if (m_fx > 250)
 	{
 		m_fx = 250;
-		m_iDir = -1;
+		m_vector_fx = -1;
 	}
 
 	if (m_fx < -250)
 	{
 		m_fx = -250;
-		m_iDir = 1;
+		m_vector_fx = 1;
 	}
-}
 
+	if (m_fy > 250)
+	{
+		m_fy = 250;
+		m_vector_fy = -1;
+	}
 
-void Object::Release(void)
-{
+	if (m_fy < -250)
+	{
+		m_fy = -250;
+		m_vector_fy = 1;
+	}
+
+	if (m_fLife > 0.f)
+	{
+		m_fLife -= 1;
+	}
 }

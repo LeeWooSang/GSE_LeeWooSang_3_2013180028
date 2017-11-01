@@ -3,39 +3,38 @@
 #include "Renderer.h"
 #include <iostream>
 #include <time.h>
-#include <stdlib.h>
+#include <cstdlib>
 using namespace std;
 
-#define BULLET_OBJECTS_COUNT 50
-#define PLAYER_OBJECTS_COUNT 10
+#define MAX_OBJECTS_COUNT 10
 
 class SceneManager
 {
 public:
-	explicit SceneManager(int m_windowWidth, int m_windowHeight);
-	virtual ~SceneManager(void);
+	SceneManager(int width, int height);
+	~SceneManager(void);
 
 public:
-	void Draw_Player(void);
-	void Draw_Bullet(void);
-	void Update(void);
+	void Init(int x, int y);
+	void Draw(void);
+
+	bool Box_Collision(float minX1, float minY1, float maxX1, float maxY1, float minX2, float minY2, float maxX2, float maxY2);
 	void Collision(void);
 
-public:
-	void Get_Object_Count(int icount)		{ m_object_count = icount; }
-	int Set_Object_Count(void)					{ return m_object_count; }
+	void Update(float elapsedTime);
+	void Release(int index);
 
-
-public:
-	Object* m_pPlayer[PLAYER_OBJECTS_COUNT];
-	Object* m_pBullet[BULLET_OBJECTS_COUNT];
-
+	void Get_Object_Count(int ButtonCount)		{ m_iobject_count = ButtonCount; }
+	void Get_Index_Count(int ButtonCount)		{ m_index = ButtonCount - 1; }
 
 private:
 	Renderer* m_pRenderer;
 
+	Object* m_pPlayer[MAX_OBJECTS_COUNT];
+	Object* m_pBullet[MAX_OBJECTS_COUNT];
+
 	int m_windowWidth;
 	int m_windowHeight;
-
-	int m_object_count;
+	int m_iobject_count;
+	int m_index;
 };
