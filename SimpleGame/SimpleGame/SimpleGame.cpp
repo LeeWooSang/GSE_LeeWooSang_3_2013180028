@@ -30,6 +30,9 @@ void RenderScene(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
+	// 오브젝트 개수 감소에 따른 마우스 클릭 횟수 감소
+	ButtonCount = pSceneManager->Set_Object_Count();
+
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
 		pSceneManager->Draw();

@@ -166,5 +166,6 @@ void SceneManager::Release(int index)
 	{
 		delete m_pPlayer[index];
 		m_pPlayer[index] = NULL;
+		--m_iobject_count;
 	}
 }

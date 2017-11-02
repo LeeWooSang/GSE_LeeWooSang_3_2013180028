@@ -25,6 +25,8 @@ public:
 	void Release(int index);
 
 	void Get_Object_Count(int ButtonCount)		{ m_iobject_count = ButtonCount; }
+	int Set_Object_Count(void)							{ return m_iobject_count; }
+
 	void Get_Index_Count(int ButtonCount)		{ m_index = ButtonCount - 1; }
 
 private:
