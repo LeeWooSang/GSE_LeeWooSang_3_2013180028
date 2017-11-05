@@ -14,7 +14,6 @@ but WITHOUT ANY WARRANTY.
 #include "Dependencies\glew.h"
 #include "Dependencies\freeglut.h"
 #include "Renderer.h"
-#include "Object.h"
 #include "SceneManager.h"
 
 using namespace std;
@@ -35,15 +34,18 @@ void RenderScene(void)
 
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
-		pSceneManager->Draw();
+		pSceneManager->Draw_Player();
 	}
+
+	pSceneManager->Draw_Building();
+
 
 	DWORD currTime = timeGetTime();
 	DWORD elapsedTime = currTime - g_prevTime;
 	g_prevTime = currTime;
 
 	pSceneManager->Update((float)elapsedTime);
-	pSceneManager->Draw();
+	//pSceneManager->Draw();
 
 	glutSwapBuffers();
 }
@@ -67,7 +69,7 @@ void MouseInput(int button, int state, int x, int y)
 				++ButtonCount;
 				pSceneManager->Get_Object_Count(ButtonCount);
 				pSceneManager->Get_Index_Count(ButtonCount);
-				pSceneManager->Init(x - 250, -y + 250);
+				pSceneManager->Init_Player(x - 250, -y + 250);
 
 				cout << "\n마우스 클릭 됨\t" << "오브젝트 개수 : " << ButtonCount << endl;
 			}

@@ -40,9 +40,11 @@ public:
 	void Get_Color_A(float A) { m_color_a = A; }
 	float Set_Color_A()			{ return m_color_a; }
 
-	float Set_Life(void)			{ return m_fLife; }
-	float Set_LifeTime(void)	{ return m_fLifeTime; }
+	void Get_Life(float life)						{ m_fLife = life; }
+	float Set_Life(void)							{ return m_fLife; }
 
+	void Get_LifeTime(float lifetime)		{ m_fLifeTime = lifetime; }
+	float Set_LifeTime(void)					{ return m_fLifeTime; }
 
 private:
 	float m_fx, m_fy, m_fz;
