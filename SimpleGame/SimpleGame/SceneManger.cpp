@@ -18,9 +18,12 @@ SceneManager::SceneManager(int width, int height)
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
 		m_pPlayer[i] = NULL;
-		m_pBullet[i]  = NULL;
 		m_pArrow[i] = NULL;
 	}
+
+	for(int i = 0; i < MAX_BULLETS_COUNT; ++i)
+		m_pBullet[i] = NULL;
+
 }
 
 SceneManager::~SceneManager(void)
@@ -42,7 +45,7 @@ void SceneManager::Draw(void)
 
 void SceneManager::Init_Player(int x, int y)
 {
-	for (int i = 0; i < m_iobject_count; i++)
+	for (int i = 0; i < m_iobject_count; ++i)
 	{
 		if (m_pPlayer[i] == NULL)
 			m_pPlayer[i] = new Object(x, y);
@@ -51,7 +54,7 @@ void SceneManager::Init_Player(int x, int y)
 
 void SceneManager::Draw_Player(void)
 {
-	for (int i = 0; i < m_iobject_count; i++)
+	for (int i = 0; i < m_iobject_count; ++i)
 	{
 		if (m_pPlayer[i] != NULL)
 		{
@@ -68,9 +71,24 @@ void SceneManager::Draw_Player(void)
 	}
 }
 
-void SceneManager::Update_Player(void)
+void SceneManager::Update_Player(float elapsedTime)
 {
+	SceneManager::Collision();
 
+	for (int i = 0; i < m_iobject_count; ++i)
+	{
+		if (m_pPlayer[i] != NULL)
+		{
+			if (m_pPlayer[i]->Set_Life() < 0.0001f || m_pPlayer[i]->Set_LifeTime() < 0.0001f)
+			{
+				//kill object
+				Delete_Player(i);
+				cout << i << "번째 플레이어 삭제" << endl;
+			}
+			else
+				m_pPlayer[i]->Update(elapsedTime);
+		}
+	}
 }
 
 void SceneManager::Delete_Player(int index)
@@ -121,7 +139,13 @@ void SceneManager::Draw_Building(void)
 
 void SceneManager::Update_Building(void)
 {
-
+	if (m_pBuilding != NULL)
+	{
+		if (m_pBuilding->Set_Life() <= 0)
+		{
+			Delete_Building();
+		}
+	}
 }
 
 void SceneManager::Delete_Building(void)
@@ -130,22 +154,84 @@ void SceneManager::Delete_Building(void)
 	m_pBuilding = NULL;
 }
 
+void SceneManager::Init_Bullet(void)
+{
+	for (int i = 0; i < m_ibullet_count; ++i)
+	{
+		if (m_pBullet[i] == NULL)
+		{
+			m_pBullet[i] = new Object(m_pBuilding->Set_X(), m_pBuilding->Set_Y());
+			m_pBullet[i]->Get_Life(20.0);
+			m_pBullet[i]->Get_Size(13.0);
+			m_pBullet[i]->Get_Color_R(0.0),
+			m_pBullet[i]->Get_Color_G(0.0),
+			m_pBullet[i]->Get_Color_B(0.0),
+			m_pBullet[i]->Get_Color_A(0.0);
+			m_pBullet[i]->Get_Life(1000);
+		}
+	}
+}
+
+void SceneManager::Draw_Bullet(void)
+{
+	for (int i = 0; i < m_ibullet_count; ++i)
+	{
+		if (m_pBullet[i] == NULL)
+			Init_Bullet();
+
+		else if (m_pBullet[i] != NULL)
+		{
+			m_pRenderer->DrawSolidRect(
+				m_pBullet[i]->Set_X(),
+				m_pBullet[i]->Set_Y(),
+				m_pBullet[i]->Set_Z(),
+				m_pBullet[i]->Set_Size(),
+				m_pBullet[i]->Set_Color_R(),
+				m_pBullet[i]->Set_Color_G(),
+				m_pBullet[i]->Set_Color_B(),
+				m_pBullet[i]->Set_Color_A());
+		}
+	}
+}
+
+void SceneManager::Update_Bullet(float elapsedTime)
+{
+	for (int i = 0; i < m_ibullet_count; ++i)
+	{
+		if (m_pBullet[i] != NULL)
+		{
+			if (m_pBullet[i]->Set_Life() < 0.0001f)
+			{
+				Delete_Bullet(i);
+				cout << i << "번째 총알 삭제" << endl;
+			}
+
+			else
+				m_pBullet[i]->Update(elapsedTime);
+		}
+	}
+}
+
+void SceneManager::Delete_Bullet(int index)
+{
+	delete m_pBullet[index];
+	m_pBullet[index] = NULL;
+}
+
 void SceneManager::Collision(void)
 {
-	int icollision_count = 0;
+	int icollision_count1 = 0, icollision_count2 = 0;
 
-	for (int i = 0; i < m_iobject_count; ++i)
+
+	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
-		icollision_count = 0;
+		icollision_count1 = 0;
 
 		if (m_pPlayer[i] != NULL)
 		{
-			for (int j = 0; j < m_iobject_count; ++j)
+			for (int j = 0; j < m_ibullet_count; ++j)
 			{
-				if (i == j)
-					continue;
-
-				if (m_pPlayer[j] != NULL)
+				if (m_pBullet[j] != NULL)
 				{
 					float minX1, minY1;
 					float maxX1, maxY1;
@@ -153,28 +239,32 @@ void SceneManager::Collision(void)
 					float minX2, minY2;
 					float maxX2, maxY2;
 
+					float minX3, minY3;
+					float maxX3, maxY3;
+
 					minX1 = m_pPlayer[i]->Set_X() - m_pPlayer[i]->Set_Size() / 2.f;
 					minY1 = m_pPlayer[i]->Set_Y() - m_pPlayer[i]->Set_Size() / 2.f;
 					maxX1 = m_pPlayer[i]->Set_X() + m_pPlayer[i]->Set_Size() / 2.f;
 					maxY1 = m_pPlayer[i]->Set_Y() + m_pPlayer[i]->Set_Size() / 2.f;
-
-					//minX2 = m_pPlayer[j]->Set_X() - m_pPlayer[j]->Set_Size() / 2.f;
-					//minY2= m_pPlayer[j]->Set_Y() - m_pPlayer[j]->Set_Size() / 2.f;
-					//maxX2 = m_pPlayer[j]->Set_X() + m_pPlayer[j]->Set_Size() / 2.f;
-					//maxY2 = m_pPlayer[j]->Set_Y() + m_pPlayer[j]->Set_Size() / 2.f;
 
 					minX2 = m_pBuilding->Set_X() - m_pBuilding->Set_Size() / 2.f;
 					minY2 = m_pBuilding->Set_Y() - m_pBuilding->Set_Size() / 2.f;
 					maxX2 = m_pBuilding->Set_X() + m_pBuilding->Set_Size() / 2.f;
 					maxY2 = m_pBuilding->Set_Y() + m_pBuilding->Set_Size() / 2.f;
 
-					if (Box_Collision(minX1, minY1, maxX1, maxY1, minX2, minY2, maxX2, maxY2))
-						++icollision_count;
+
+					minX3 = m_pBullet[j]->Set_X() - m_pBullet[j]->Set_Size() / 2.f;
+					minY3 = m_pBullet[j]->Set_Y() - m_pBullet[j]->Set_Size() / 2.f;
+					maxX3 = m_pBullet[j]->Set_X() + m_pBullet[j]->Set_Size() / 2.f;
+					maxY3 = m_pBullet[j]->Set_Y() + m_pBullet[j]->Set_Size() / 2.f;
+
+					if (Box_Collision(minX1, minY1, maxX1, maxY1, minX2, minY2, maxX2, maxY2, minX3, minY3, maxX3, maxY3))
+						++icollision_count1;
 				}
 			}
 			
 			// 충돌 했을 때
-			if (icollision_count > 0)
+			if (icollision_count1 > 0)
 			{
 				m_pPlayer[i]->Get_Life(0.0);
 				m_pPlayer[i]->Get_LifeTime(0.0);
@@ -182,8 +272,10 @@ void SceneManager::Collision(void)
 				m_pPlayer[i]->Get_Color_G(0.0),
 				m_pPlayer[i]->Get_Color_B(0.0),
 				m_pPlayer[i]->Get_Color_A(1.0);
-				
-				m_pBuilding->Get_Life(m_pBuilding->Set_Life() - 10000);
+			
+				//m_pBuilding->Get_Life(m_pBuilding->Set_Life() - 10000);
+				m_pBullet[i]->Get_Life(0.0);
+
 				cout << m_pBuilding->Set_Life() << endl;
 			}
 
@@ -198,7 +290,10 @@ void SceneManager::Collision(void)
 	}
 }
 
-bool SceneManager::Box_Collision(float minX1, float minY1, float maxX1, float maxY1, float minX2, float minY2, float maxX2, float maxY2)
+bool SceneManager::Box_Collision(
+	float minX1, float minY1, float maxX1, float maxY1, 
+	float minX2, float minY2, float maxX2, float maxY2,
+	float minX3, float minY3, float maxX3, float maxY3)
 {
 	// 캐릭터가 빌딩보다 오른쪽에 있을 때
 	if (minX1 > maxX2)
@@ -216,46 +311,34 @@ bool SceneManager::Box_Collision(float minX1, float minY1, float maxX1, float ma
 	if (maxY1 < minY2)
 		return false;
 
+	// 캐릭터가 총알보다 오른쪽에 있을 때
+	if (minX1 > maxX3)
+		return false;
+
+	if (maxX1 > minX3)
+		return false;
+
+	if (minY1 > maxY3)
+		return false;
+
+	if (maxY1 > minY3)
+		return false;
+
 	return true;
 }
 
 void SceneManager::Update(float elapsedTime)
 {
-	SceneManager::Collision();
 
-	for (int i = 0; i < m_iobject_count; i++)
-	{
-		if (m_pPlayer[i] != NULL)
-		{
-			if (m_pPlayer[i]->Set_Life() < 0.0001f || m_pPlayer[i]->Set_LifeTime() < 0.0001f)
-			{
-				//kill object
-				Delete_Player(i);
-			}
-			else
-			{
-				m_pPlayer[i]->Update(elapsedTime);
-			}
-		}
-		//if (m_pBullet[i] != NULL)
-		//{
-		//	m_pBullet[i]->Update(elapsedTime);
-		//}
-	}
-
-	if (m_pBuilding != NULL)
-	{
-		if (m_pBuilding->Set_Life() <= 0)
-		{
-			Delete_Building();
-		}
-	}
 }
 
 void SceneManager::Release(void)
 {
-	for (int i = 0; i < m_iobject_count; ++i)
+	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
+		delete m_pBullet[i];
+		m_pBullet[i] = NULL;
+
 		delete m_pPlayer[i];
 		m_pPlayer[i] = NULL;
 	}

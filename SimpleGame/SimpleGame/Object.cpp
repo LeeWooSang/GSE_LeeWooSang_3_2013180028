@@ -30,6 +30,10 @@ void Object::Update(float elapsedTime)
 
 	m_fx = m_fx+ m_fSpeed * elapsedTime * m_vector_fx;
 	m_fy = m_fy + m_fSpeed * elapsedTime * m_vector_fy;
+	//m_fx = m_fx + m_fSpeed * elapsedTimeInSecond * m_vector_fx;
+	//m_fy = m_fy + m_fSpeed * elapsedTimeInSecond * m_vector_fy;
+
+	//cout << elapsedTimeInSecond << endl;
 
 	if (m_fx > 250)
 	{
@@ -57,6 +61,11 @@ void Object::Update(float elapsedTime)
 
 	if (m_fLife > 0.f)
 	{
-		m_fLife -= 1;
+		//m_fLife -= 1;
+	}
+
+	if (m_fLifeTime > 0.f)
+	{
+		m_fLifeTime -= 1;
 	}
 }
