@@ -80,29 +80,28 @@ void RenderScene(void)
 
 	Timer += elapsedTime;
 
+	pSceneManager->Init_Building();
+	pSceneManager->Draw_Building();
+
 	// 오브젝트 개수 감소에 따른 마우스 클릭 횟수 감소
 	ButtonCount = pSceneManager->Set_Player_Count();
-
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
 		pSceneManager->Draw_Player();
 	}
 
-	pSceneManager->Draw_Building();
-
 	if (Timer % 500 == 0)
 	{
 		pSceneManager->Get_Bullet_Count();
-		cout << "Bullet_Count = " << pSceneManager->Set_Bullet_Count() << "\t";
-		cout << "Timer = " << Timer << "밀리초" << endl;
+		//cout << "Bullet_Count = " << pSceneManager->Set_Bullet_Count() << "\t";
+		//cout << "Timer = " << Timer << "밀리초" << endl;
 	}
 
 	for (int i = 0; i < pSceneManager->Set_Bullet_Count(); ++i)
 		pSceneManager->Draw_Bullet();
 
-
+	pSceneManager->Update_Building();
 	pSceneManager->Update_Player((float)elapsedTime);
-	
 	pSceneManager->Update_Bullet((float)elapsedTime);
 	//pSceneManager->Update((float)elapsedTime);
 	//pSceneManager->Draw();

@@ -144,7 +144,14 @@ void SceneManager::Update_Building(void)
 		if (m_pBuilding->Set_Life() <= 0)
 		{
 			Delete_Building();
+			cout << "건물 삭제" << endl;
 		}
+	}
+
+	if (m_pBuilding == NULL)
+	{
+		cout << "건물 재 생성" << endl;
+		Init_Building();
 	}
 }
 
@@ -200,7 +207,7 @@ void SceneManager::Update_Bullet(float elapsedTime)
 	{
 		if (m_pBullet[i] != NULL)
 		{
-			if (m_pBullet[i]->Set_Life() < 0.0001f)
+			if (m_pBullet[i]->Set_Life() <= 0)
 			{
 				Delete_Bullet(i);
 				cout << i << "번째 총알 삭제" << endl;
@@ -220,8 +227,7 @@ void SceneManager::Delete_Bullet(int index)
 
 void SceneManager::Collision(void)
 {
-	int icollision_count1 = 0, icollision_count2 = 0;
-
+	int icollision_count1 = 0;
 
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
@@ -273,10 +279,9 @@ void SceneManager::Collision(void)
 				m_pPlayer[i]->Get_Color_B(0.0),
 				m_pPlayer[i]->Get_Color_A(1.0);
 			
-				//m_pBuilding->Get_Life(m_pBuilding->Set_Life() - 10000);
+				m_pBuilding->Get_Life(m_pBuilding->Set_Life() - 10000);
+				cout << "건물 체력 : " << m_pBuilding->Set_Life() << endl;
 				m_pBullet[i]->Get_Life(0.0);
-
-				cout << m_pBuilding->Set_Life() << endl;
 			}
 
 			else
@@ -315,12 +320,15 @@ bool SceneManager::Box_Collision(
 	if (minX1 > maxX3)
 		return false;
 
+	// 캐릭터가 총알보다 왼쪽에 있을 때
 	if (maxX1 > minX3)
 		return false;
 
+	// 캐릭터가 총알보다 위쪽에 있을 때
 	if (minY1 > maxY3)
 		return false;
 
+	// 캐릭터가 총알보다 아래쪽에 있을 때
 	if (maxY1 > minY3)
 		return false;
 
