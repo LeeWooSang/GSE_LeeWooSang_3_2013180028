@@ -101,6 +101,66 @@ void SceneManager::Delete_Player(int index)
 	}
 }
 
+void SceneManager::Init_Arrow(void)
+{
+	for (int i = 0; i < m_ibullet_count; ++i)
+	{
+		if (m_pArrow[i] == NULL)
+		{
+			m_pArrow[i] = new Object(m_pPlayer[i]->Set_X(), m_pPlayer[i]->Set_Y());
+			m_pArrow[i]->Get_Size(13.0);
+			m_pArrow[i]->Get_Color_R(1.0);
+			m_pArrow[i]->Get_Color_G(0.0);
+			m_pArrow[i]->Get_Color_B(0.0);
+			m_pArrow[i]->Get_Color_A(1.0);
+			m_pArrow[i]->Get_Life(1000);
+		}
+	}
+}
+
+void SceneManager::Draw_Arrow(void)
+{
+	for (int i = 0; i < m_ibullet_count; ++i)
+	{
+		if (m_pArrow[i] != NULL)
+		{
+			m_pRenderer->DrawSolidRect(
+				m_pArrow[i]->Set_X(),
+				m_pArrow[i]->Set_Y(),
+				m_pArrow[i]->Set_Z(),
+				m_pArrow[i]->Set_Size(),
+				m_pArrow[i]->Set_Color_R(),
+				m_pArrow[i]->Set_Color_G(),
+				m_pArrow[i]->Set_Color_B(),
+				m_pArrow[i]->Set_Color_A() );
+		}
+	}
+}
+
+void SceneManager::Update_Arrow(float elapsedTime)
+{
+	for (int i = 0; i < m_ibullet_count; ++i)
+	{
+		if (m_pArrow[i] != NULL)
+		{
+			if (m_pArrow[i]->Set_Life() <= 0)
+			{
+				Delete_Arrow(i);
+				cout << i << "번째 화살 삭제" << endl;
+			}
+
+			else
+				m_pArrow[i]->Update(elapsedTime);
+		}
+	}
+}
+
+void SceneManager::Delete_Arrow(int index)
+{
+	delete m_pArrow[index];
+	m_pArrow[index] = NULL;
+}
+
 void SceneManager::Init_Building(void)
 {
 	if (m_pBuilding == NULL)
@@ -173,7 +233,7 @@ void SceneManager::Init_Bullet(void)
 			m_pBullet[i]->Get_Color_R(0.0),
 			m_pBullet[i]->Get_Color_G(0.0),
 			m_pBullet[i]->Get_Color_B(0.0),
-			m_pBullet[i]->Get_Color_A(0.0);
+			m_pBullet[i]->Get_Color_A(1.0);
 			m_pBullet[i]->Get_Life(1000);
 		}
 	}
@@ -349,6 +409,9 @@ void SceneManager::Release(void)
 
 		delete m_pPlayer[i];
 		m_pPlayer[i] = NULL;
+
+		delete m_pArrow[i];
+		m_pArrow[i] = NULL;
 	}
 
 	delete m_pBuilding;

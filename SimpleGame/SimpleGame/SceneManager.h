@@ -33,7 +33,6 @@ public:
 	int		Set_Player_Count(void)							{ return m_iobject_count; }
 
 	void Get_Bullet_Count(void)							{ if(m_ibullet_count < MAX_BULLETS_COUNT) ++m_ibullet_count; }
-
 	int		Set_Bullet_Count(void)							{ return m_ibullet_count; }
 
 	void Get_Index_Count(int ButtonCount)		{ m_index = ButtonCount - 1; }
@@ -43,6 +42,11 @@ public:
 	void Draw_Player(void);
 	void Update_Player(float elapsedTime);
 	void Delete_Player(int index);
+
+	void Init_Arrow(void);
+	void Draw_Arrow(void);
+	void Update_Arrow(float elapsedTime);
+	void Delete_Arrow(int index);
 
 	void Init_Building(void);
 	void Draw_Building(void);
@@ -60,11 +64,12 @@ private:
 	Renderer* m_pRenderer;
 	// 캐릭터
 	Object* m_pPlayer[MAX_OBJECTS_COUNT];
+	// 캐릭터가 발사하는 화살
+	Object* m_pArrow[MAX_OBJECTS_COUNT];
 	// 건물
 	Object* m_pBuilding;
 	// 건물에서 쏘는 총알
 	Object* m_pBullet[MAX_OBJECTS_COUNT];
-	Object* m_pArrow[MAX_OBJECTS_COUNT];
 
 	int m_windowWidth;
 	int m_windowHeight;

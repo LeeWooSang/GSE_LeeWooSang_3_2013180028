@@ -25,6 +25,9 @@
     <Filter Include="소스 파일\SceneManager">
       <UniqueIdentifier>{720d177c-15a8-4859-b0c7-53b4f2d9db6b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Textures">
+      <UniqueIdentifier>{85463314-c4db-45e2-ae33-94fa57978c69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -39,11 +42,14 @@
     <ClInclude Include="Object.h">
       <Filter>소스 파일\Object</Filter>
     </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>소스 파일\SceneManager</Filter>
+    </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>소스 파일\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>소스 파일\SceneManager</Filter>
+    <ClInclude Include="LoadPng.h">
+      <Filter>소스 파일\Textures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -53,17 +59,32 @@
     <ClCompile Include="SimpleGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>소스 파일\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="SceneManger.cpp">
       <Filter>소스 파일\SceneManager</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>소스 파일\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadPng.cpp">
+      <Filter>소스 파일\Textures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\SolidRectWithTexture.fs">
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
+    <None Include="Shaders\SolidRectWithTexture.vs">
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
+    <None Include="Shaders\SolidRectWithTextureSeq.fs">
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
+    <None Include="Shaders\SolidRectWithTextureSeq.vs">
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
     <None Include="Shaders\SolidRect.fs">
       <Filter>소스 파일\Shaders</Filter>
     </None>

@@ -98,11 +98,17 @@ void RenderScene(void)
 	}
 
 	for (int i = 0; i < pSceneManager->Set_Bullet_Count(); ++i)
+	{
 		pSceneManager->Draw_Bullet();
+		pSceneManager->Draw_Arrow();
+	}
 
 	pSceneManager->Update_Building();
-	pSceneManager->Update_Player((float)elapsedTime);
 	pSceneManager->Update_Bullet((float)elapsedTime);
+
+	pSceneManager->Update_Player((float)elapsedTime);
+	pSceneManager->Update_Arrow((float)elapsedTime);
+
 	//pSceneManager->Update((float)elapsedTime);
 	//pSceneManager->Draw();
 	glutSwapBuffers();
