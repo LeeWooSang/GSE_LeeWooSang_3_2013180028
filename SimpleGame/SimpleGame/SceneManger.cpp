@@ -404,21 +404,22 @@ void SceneManager::Collision(void)
 	for (int i = 0; i < m_iobject_count; ++i)
 	{
 		icollision_count2 = 0;
-
-		if (m_pPlayer[i] != NULL && (m_pPlayer[i + 1] != NULL && i + 1 < m_iobject_count))
-		{
 			for (int j = 0; j < MAX_ARROWS_COUNT; ++j)
 			{
+				if (i == j)
+					continue;
+				else
+				{
 					float minX1, minY1;
 					float maxX1, maxY1;
 
 					float minX2, minY2;
 					float maxX2, maxY2;
 
-					minX1 = m_pPlayer[i + 1]->Set_X() - m_pPlayer[i + 1]->Set_Size() / 2.f;
-					minY1 = m_pPlayer[i + 1]->Set_Y() - m_pPlayer[i + 1]->Set_Size() / 2.f;
-					maxX1 = m_pPlayer[i + 1]->Set_X() + m_pPlayer[i + 1]->Set_Size() / 2.f;
-					maxY1 = m_pPlayer[i + 1]->Set_Y() + m_pPlayer[i + 1]->Set_Size() / 2.f;
+					minX1 = m_pPlayer[i]->Set_X() - m_pPlayer[i]->Set_Size() / 2.f;
+					minY1 = m_pPlayer[i]->Set_Y() - m_pPlayer[i]->Set_Size() / 2.f;
+					maxX1 = m_pPlayer[i]->Set_X() + m_pPlayer[i]->Set_Size() / 2.f;
+					maxY1 = m_pPlayer[i]->Set_Y() + m_pPlayer[i]->Set_Size() / 2.f;
 
 					minX2 = m_pPlayer[i]->m_pArrow[j]->Set_X() - m_pPlayer[i]->m_pArrow[j]->Set_Size() / 2.f;
 					minY2 = m_pPlayer[i]->m_pArrow[j]->Set_Y() - m_pPlayer[i]->m_pArrow[j]->Set_Size() / 2.f;
@@ -427,6 +428,7 @@ void SceneManager::Collision(void)
 
 					if (Test_Box_Collision(minX1, minY1, maxX1, maxY1, minX2, minY2, maxX2, maxY2))
 						++icollision_count2;
+				}
 			}
 
 			if (icollision_count2 > 0)
