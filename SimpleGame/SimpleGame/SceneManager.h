@@ -10,6 +10,7 @@ using namespace std;
 
 #define MAX_OBJECTS_COUNT 10
 #define MAX_BULLETS_COUNT 10
+#define MAX_ARROWS_COUNT 5
 
 class SceneManager
 {
@@ -22,6 +23,7 @@ public:
 	void Draw(void);
 
 	bool Box_Collision(float minX1, float minY1, float maxX1, float maxY1, float minX2, float minY2, float maxX2, float maxY2, float minX3, float minY3, float maxX3, float maxY3);
+	bool Test_Box_Collision(float minX1, float minY1, float maxX1, float maxY1, float minX2, float minY2, float maxX2, float maxY2);
 	void Collision(void);
 
 	void Update(float elapsedTime);
@@ -29,11 +31,21 @@ public:
 	void Release(void);
 
 public:
-	void Get_Player_Count(int ButtonCount)		{ m_iobject_count = ButtonCount; }
+	void Get_Player_Count(int ButtonCount)		
+	{
+		m_iobject_count = ButtonCount; 
+
+		for (int i = 0; i < m_iobject_count; ++i)
+		{
+			if (m_pPlayer[i] != NULL)
+				m_pPlayer[i]->Get_Player_Count(m_iobject_count);
+		}
+	}
 	int		Set_Player_Count(void)							{ return m_iobject_count; }
 
 	void Get_Bullet_Count(void)							{ if(m_ibullet_count < MAX_BULLETS_COUNT) ++m_ibullet_count; }
 	int		Set_Bullet_Count(void)							{ return m_ibullet_count; }
+
 
 	void Get_Index_Count(int ButtonCount)		{ m_index = ButtonCount - 1; }
 
@@ -59,8 +71,6 @@ public:
 	void Delete_Bullet(int index);
 
 private:
-
-
 	Renderer* m_pRenderer;
 	// Ä³¸¯ÅÍ
 	Object* m_pPlayer[MAX_OBJECTS_COUNT];

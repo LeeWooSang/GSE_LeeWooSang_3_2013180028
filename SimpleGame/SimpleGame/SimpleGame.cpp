@@ -85,10 +85,6 @@ void RenderScene(void)
 
 	// 오브젝트 개수 감소에 따른 마우스 클릭 횟수 감소
 	ButtonCount = pSceneManager->Set_Player_Count();
-	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
-	{
-		pSceneManager->Draw_Player();
-	}
 
 	if (Timer % 500 == 0)
 	{
@@ -100,14 +96,19 @@ void RenderScene(void)
 	for (int i = 0; i < pSceneManager->Set_Bullet_Count(); ++i)
 	{
 		pSceneManager->Draw_Bullet();
-		pSceneManager->Draw_Arrow();
+		//pSceneManager->Draw_Arrow();
+	}
+
+	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
+	{
+		pSceneManager->Draw_Player();
 	}
 
 	pSceneManager->Update_Building();
 	pSceneManager->Update_Bullet((float)elapsedTime);
 
 	pSceneManager->Update_Player((float)elapsedTime);
-	pSceneManager->Update_Arrow((float)elapsedTime);
+	//pSceneManager->Update_Arrow((float)elapsedTime);
 
 	//pSceneManager->Update((float)elapsedTime);
 	//pSceneManager->Draw();
@@ -134,6 +135,7 @@ void MouseInput(int button, int state, int x, int y)
 				pSceneManager->Get_Player_Count(ButtonCount);
 				pSceneManager->Get_Index_Count(ButtonCount);
 				pSceneManager->Init_Player(x - 250, -y + 250);
+				//pSceneManager->Init_Arrow();
 
 				cout << "\n마우스 클릭 됨\t" << "오브젝트 개수 : " << ButtonCount << endl;
 			}

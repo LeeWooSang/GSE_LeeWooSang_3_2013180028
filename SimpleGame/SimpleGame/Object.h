@@ -3,8 +3,12 @@
 #include <iostream>
 #include <time.h>
 #include <stdlib.h>
+#include "Renderer.h"
 
 using namespace std;
+
+#define MAX_ARROWS_COUNT 5
+extern int Timer;
 
 class Object
 {
@@ -46,6 +50,12 @@ public:
 	void Get_LifeTime(float lifetime)		{ m_fLifeTime = lifetime; }
 	float Set_LifeTime(void)					{ return m_fLifeTime; }
 
+	void Get_Player_Count(int count)		{ m_iplayer_count = count; }
+	int		Set_Player_Count(void)				{ return m_iplayer_count; }
+
+	void Get_TextureID(GLuint  ID)				{ m_texureID = ID; }
+	GLuint Set_TextureID(void)					{ return m_texureID; }
+
 private:
 	float m_fx, m_fy, m_fz;
 	float m_vector_fx, m_vector_fy;
@@ -57,4 +67,10 @@ private:
 
 	float m_fLife;
 	float m_fLifeTime;
+
+	int m_iplayer_count;
+	GLuint m_texureID;
+
+public:
+	Object* m_pArrow[MAX_ARROWS_COUNT];
 };
