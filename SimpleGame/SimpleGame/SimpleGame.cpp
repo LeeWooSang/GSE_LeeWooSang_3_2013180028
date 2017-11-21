@@ -17,6 +17,8 @@ but WITHOUT ANY WARRANTY.
 #include "SceneManager.h"
 
 using namespace std;
+#define	 WIDTH 500
+#define HEIGHT 800
 
 //Object* pObject = new Object(0.0f, 0.0f, 0.0f, 25.0f, 1.0f, 0.0f, 0.0f, 1.0f);
 SceneManager* pSceneManager = NULL;
@@ -37,7 +39,7 @@ int main(int argc, char **argv)
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(0, 0);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(WIDTH, HEIGHT);
 	glutCreateWindow("Game Software Engineering KPU");
 
 	glewInit();
@@ -51,7 +53,7 @@ int main(int argc, char **argv)
 	}
 
 	// Initialize Renderer
-	pSceneManager = new SceneManager(500, 500);
+	pSceneManager = new SceneManager(WIDTH, HEIGHT);
 
 	glutDisplayFunc(RenderScene);
 	glutIdleFunc(Idle);
@@ -134,7 +136,7 @@ void MouseInput(int button, int state, int x, int y)
 				++ButtonCount;
 				pSceneManager->Get_Player_Count(ButtonCount);
 				pSceneManager->Get_Index_Count(ButtonCount);
-				pSceneManager->Init_Player(x - 250, -y + 250);
+				pSceneManager->Init_Player(x - 250, -y + 400);
 				//pSceneManager->Init_Arrow();
 
 				cout << "\n마우스 클릭 됨\t" << "오브젝트 개수 : " << ButtonCount << endl;

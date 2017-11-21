@@ -12,6 +12,11 @@ using namespace std;
 #define MAX_BULLETS_COUNT 10
 #define MAX_ARROWS_COUNT 5
 
+#define MAX_BUILDINGS_COUNT 6
+
+#define BLUE_TEAM 1
+#define RED_TEAM	2
+
 class SceneManager
 {
 public:
@@ -63,7 +68,7 @@ public:
 	void Init_Building(void);
 	void Draw_Building(void);
 	void Update_Building(void);
-	void Delete_Building(void);
+	void Delete_Building(int index);
 
 	void Init_Bullet(void);
 	void Draw_Bullet(void);
@@ -80,6 +85,8 @@ private:
 	Object* m_pBuilding;
 	// °Ç¹°¿¡¼­ ½î´Â ÃÑ¾Ë
 	Object* m_pBullet[MAX_OBJECTS_COUNT];
+
+	Object* m_pBuildings[MAX_BUILDINGS_COUNT];
 
 	int m_windowWidth;
 	int m_windowHeight;

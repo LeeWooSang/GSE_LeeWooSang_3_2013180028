@@ -12,13 +12,14 @@ Object::Object(float x, float y)
 	m_color_b = 0.0;
 	m_color_a = 1.0;
 
-	m_vector_fx = 200.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
-	m_vector_fy = 200.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
+	m_vector_fx = 0.001f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
+	m_vector_fy = 0.001f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 
 	m_fSpeed = 0.005;
 	m_fLife = 10000.f;
 	m_fLifeTime = 100000.f;
 	m_texureID = 0;
+	m_TeamType = 0;
 
 	for (int i = 0; i < MAX_ARROWS_COUNT; ++i)
 		m_pArrow[i] = NULL;
@@ -36,6 +37,10 @@ Object::~Object(void)
 
 void Object::Update(float elapsedTime)
 {
+	int Timer = 0;
+
+	Timer += elapsedTime;
+
 	float elapsedTimeInSecond = elapsedTime / 1000.f;
 
 	m_fx = m_fx+ m_fSpeed * elapsedTime * m_vector_fx;
@@ -50,14 +55,15 @@ void Object::Update(float elapsedTime)
 			{
 				m_pArrow[i] = new Object(m_fx, m_fy);
 				m_pArrow[i]->m_fz = 0.0;
-				m_pArrow[i]->m_fsize = 10.0;
-				m_pArrow[i]->m_color_r = 1.0;
-				m_pArrow[i]->m_color_g = 0.0;
-				m_pArrow[i]->m_color_b = 0.0;
+				m_pArrow[i]->m_fsize = 4.0;
+				m_pArrow[i]->m_color_r = 0.5;
+				m_pArrow[i]->m_color_g = 0.2;
+				m_pArrow[i]->m_color_b = 0.7;
 				m_pArrow[i]->m_color_a = 1.0;
-				m_pArrow[i]->m_fLife = 100;
-				m_pArrow[i]->m_vector_fx = 200.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
-				m_pArrow[i]->m_vector_fy = 200.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
+				m_pArrow[i]->m_fLife = 10.0;
+				m_pArrow[i]->m_fSpeed = 100.0;
+				m_pArrow[i]->m_vector_fx = 0.001f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
+				m_pArrow[i]->m_vector_fy = 0.001f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 			}
 		}
 
@@ -78,15 +84,15 @@ void Object::Update(float elapsedTime)
 				m_pArrow[i]->m_vector_fx = -m_pArrow[i]->m_vector_fx;
 			}
 
-			if (m_pArrow[i]->m_fy > 250)
+			if (m_pArrow[i]->m_fy > 400)
 			{
-				m_pArrow[i]->m_fy = 250;
+				m_pArrow[i]->m_fy = 400;
 				m_pArrow[i]->m_vector_fy = -m_pArrow[i]->m_vector_fy;
 			}
 
-			if (m_pArrow[i]->m_fy < -250)
+			if (m_pArrow[i]->m_fy < -400)
 			{
-				m_pArrow[i]->m_fy = -250;
+				m_pArrow[i]->m_fy = -400;
 				m_pArrow[i]->m_vector_fy = -m_pArrow[i]->m_vector_fy;
 			}
 
@@ -114,15 +120,15 @@ void Object::Update(float elapsedTime)
 		m_vector_fx = -m_vector_fx;
 	}
 
-	if (m_fy > 250)
+	if (m_fy > 400)
 	{
-		m_fy = 250;
+		m_fy = 400;
 		m_vector_fy = -m_vector_fy;
 	}
 
-	if (m_fy < -250)
+	if (m_fy < -400)
 	{
-		m_fy = -250;
+		m_fy = -400;
 		m_vector_fy = -m_vector_fy;
 	}
 

@@ -8,7 +8,7 @@
 using namespace std;
 
 #define MAX_ARROWS_COUNT 5
-extern int Timer;
+//extern int Timer;
 
 class Object
 {
@@ -44,6 +44,9 @@ public:
 	void Get_Color_A(float A) { m_color_a = A; }
 	float Set_Color_A()			{ return m_color_a; }
 
+	void Get_Speed(float speed)				{ m_fSpeed = speed; }
+	float Set_Speed(void)						{ return m_fSpeed; }
+
 	void Get_Life(float life)						{ m_fLife = life; }
 	float Set_Life(void)							{ return m_fLife; }
 
@@ -53,8 +56,11 @@ public:
 	void Get_Player_Count(int count)		{ m_iplayer_count = count; }
 	int		Set_Player_Count(void)				{ return m_iplayer_count; }
 
-	void Get_TextureID(GLuint  ID)				{ m_texureID = ID; }
-	GLuint Set_TextureID(void)					{ return m_texureID; }
+	void Get_TextureID(GLuint  ID)			{ m_texureID = ID; }
+	GLuint Set_TextureID(void)				{ return m_texureID; }
+
+	void Get_TeamType(int Type)			{ m_TeamType = Type; }
+	int		Set_TeamType(void)					{ return m_TeamType; }
 
 private:
 	float m_fx, m_fy, m_fz;
@@ -68,6 +74,7 @@ private:
 	float m_fLife;
 	float m_fLifeTime;
 
+	int		m_TeamType;
 	int m_iplayer_count;
 	GLuint m_texureID;
 
