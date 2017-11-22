@@ -1,83 +1,89 @@
-
 #pragma once
-#include <iostream>
-#include <time.h>
-#include <stdlib.h>
-#include "Renderer.h"
-
-using namespace std;
-
-#define MAX_ARROWS_COUNT 5
-//extern int Timer;
-
 class Object
 {
-public:
-	explicit Object(float x, float y);
-	virtual ~Object(void);
+
+	float m_x;
+	float m_y;
+	float m_z;
+	float m_size;
+	float m_color[4];		// R G B A
+
+	//speed Vector
+	float m_moveDir[2]; // x,y
+	float m_speed;
+
+	// is colision ?
+	bool m_isColision;
+
+	// Life
+	float m_life;
+	float m_lifeTime;
+	int m_type;
+
+	float m_lastBullet;
+	float m_lastArrow;
+
+	int m_parentID;
+	int m_teamType;
+
 
 public:
-	void Update(float elapsedTime);
+	Object(float x, float y, int type, int teamType);
+	~Object();
 
-public:
-	void Get_X(float x)			{ m_fx = x; }
-	float Set_X()						{ return m_fx; }
+	// Get Functions
+	float GetPositionX() { return m_x; }
+	float GetPositionY() { return m_y; }
+	float GetPositionZ() { return m_z; }
+	float GetSize() { return m_size; }
+	float GetColorRed() { return m_color[0]; }
+	float GetColorGreen() { return m_color[1]; }
+	float GetColorBlue() { return m_color[2]; }
+	float GetColorAlpha() { return m_color[3]; }
+	bool GetIsColision() { return m_isColision; }
+	float GetHalfSize() { return m_size *0.5f; }
 
-	void Get_Y(float y)			{ m_fy = y; }
-	float Set_Y()						{ return m_fy; }
+	float GetLife() { return m_life; }
+	float GetLifeTime() { return m_lifeTime; }
 
-	void Get_Z(float z)			{ m_fz = z; }
-	float Set_Z()						{ return m_fz; }
+	int GetType() { return m_type; }
+	float GetLastBullet() { return m_lastBullet; }
+	float GetLastArrow() { return m_lastArrow; }
 
-	void Get_Size(float size)	{ m_fsize = size; }
-	float Set_Size()					{ return m_fsize; }
 
-	void Get_Color_R(float R) { m_color_r = R; }
-	float Set_Color_R()			{ return m_color_r; }
+	int GetParentID() { return m_parentID;  }
+	int GetTeamType() { return m_teamType;  }
+	// Set Functions
+	void SetPosition(float x, float y, float z) { m_x = x; m_y = y; m_z = z; }
+	void SetPositionX(float val) {  m_x = val; }
+	void SetPositionY(float val) {  m_y = val; }
+	void SetPositionZ(float val) {  m_z = val; }
+	void SetSize(float val) { m_size = val; }
+	void SetColor(float red, float green, float blue, float alpha) {
+		m_color[0] = red;
+		m_color[1] = green;
+		m_color[2] = blue;
+		m_color[3] = alpha;
+	}
+	void SetObjectType(int type) { m_type = type; }
+	void SetMoveDirVector(float valX, float valY, float valZ) {
+		m_moveDir[0] = valX; m_moveDir[1] = valY; m_moveDir[2] = valZ;}
+	void SetIsColision(bool a) { m_isColision = a; }
+	void SetLife(float val) { m_life = val; }
+	void SetSpeed(float val) { m_speed = val; }
 
-	void Get_Color_G(float G) { m_color_g = G; }
-	float Set_Color_G()			{ return m_color_g; }
+	void SetDamage(float amount) { m_life -= amount; }
 
-	void Get_Color_B(float B) { m_color_b = B; }
-	float Set_Color_B()			{ return m_color_b; }
+	void SetLastBullet(float val) { m_lastBullet = val; }
+	void SetLastArrow(float val) { m_lastArrow = val; }
 
-	void Get_Color_A(float A) { m_color_a = A; }
-	float Set_Color_A()			{ return m_color_a; }
 
-	void Get_Speed(float speed)				{ m_fSpeed = speed; }
-	float Set_Speed(void)						{ return m_fSpeed; }
+	void SetParentID(int val) { m_parentID = val; }
+	void SetTeamType(int val) { m_teamType = val; }
 
-	void Get_Life(float life)						{ m_fLife = life; }
-	float Set_Life(void)							{ return m_fLife; }
 
-	void Get_LifeTime(float lifetime)		{ m_fLifeTime = lifetime; }
-	float Set_LifeTime(void)					{ return m_fLifeTime; }
+	// Update()
+	void Update(float elapsedTime );
 
-	void Get_Player_Count(int count)		{ m_iplayer_count = count; }
-	int		Set_Player_Count(void)				{ return m_iplayer_count; }
-
-	void Get_TextureID(GLuint  ID)			{ m_texureID = ID; }
-	GLuint Set_TextureID(void)				{ return m_texureID; }
-
-	void Get_TeamType(int Type)			{ m_TeamType = Type; }
-	int		Set_TeamType(void)					{ return m_TeamType; }
-
-private:
-	float m_fx, m_fy, m_fz;
-	float m_vector_fx, m_vector_fy;
-	float m_fsize;
-	float m_color_r, m_color_g, m_color_b, m_color_a;
-
-	float m_fSpeed;
-	int m_iDir;
-
-	float m_fLife;
-	float m_fLifeTime;
-
-	int		m_TeamType;
-	int m_iplayer_count;
-	GLuint m_texureID;
-
-public:
-	Object* m_pArrow[MAX_ARROWS_COUNT];
 };
+

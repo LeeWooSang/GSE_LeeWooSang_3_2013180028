@@ -1,146 +1,176 @@
 #include "stdafx.h"
 #include "Object.h"
+#include <Windows.h>
+#include "SceneMgr.h"
+#include <math.h>
 
-Object::Object(float x, float y)
+Object::Object(float x, float y, int type , int teamType) :
+	m_x(x),
+	m_y(y),
+	m_z(0),
+	m_size(30),
+	m_isColision(false),
+	m_type(type),
+	m_parentID(-1),
+	m_lastBullet(0.f),
+	m_lastArrow(0.f),
+	m_teamType(teamType)
 {
-	m_fx = x;
-	m_fy = y;
-	m_fz = 0.0;
-	m_fsize = 25.0;
-	m_color_r = 1.0;
-	m_color_g = 0.0;
-	m_color_b = 0.0;
-	m_color_a = 1.0;
-
-	m_vector_fx = 0.001f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
-	m_vector_fy = 0.001f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
-
-	m_fSpeed = 0.005;
-	m_fLife = 10000.f;
-	m_fLifeTime = 100000.f;
-	m_texureID = 0;
-	m_TeamType = 0;
-
-	for (int i = 0; i < MAX_ARROWS_COUNT; ++i)
-		m_pArrow[i] = NULL;
-
-}
-
-Object::~Object(void)
-{
-	for (int i = 0; i < m_iplayer_count; ++i)
+	if (type == OBJECT_BUILDING)
 	{
-		delete m_pArrow[i];
-		m_pArrow[i] = NULL;
+		m_color[0] = 1;
+		m_color[1] = 1;
+		m_color[2] = 0;
+		m_color[3] = 1;
+
+		m_moveDir[0] = 0;
+		m_moveDir[1] = 0;
+
+		m_speed = 0.f;
+
+		m_size = 100;
+		m_life = 500;
+
+		m_lifeTime = 100000.f;
+	}
+	else if (type == OBJECT_CHARACTER)
+	{
+		if (teamType == RED_TEAM)
+		{
+			m_color[0] = 1;
+			m_color[1] = 0;
+			m_color[2] = 0;
+			m_color[3] = 1;
+		}
+		else if (teamType == BLUE_TEAM)
+		{
+			m_color[0] = 0;
+			m_color[1] = 0;
+			m_color[2] = 1;
+			m_color[3] = 1;
+		}
+		m_moveDir[0] = (((float)std::rand() / (float)RAND_MAX - 0.5f));
+		m_moveDir[1] = (((float)std::rand() / (float)RAND_MAX - 0.5f));
+
+		m_speed = 300.f;
+
+		m_size = 10;
+		m_life = 10;
+
+		m_lifeTime = 100000.f;
+	}
+	else if (type == OBJECT_BULLET)
+	{
+		if (teamType == RED_TEAM)
+		{
+			m_color[0] = 1;
+			m_color[1] = 0;
+			m_color[2] = 0;
+			m_color[3] = 1;
+		}
+		else if (teamType == BLUE_TEAM)
+		{
+			m_color[0] = 0;
+			m_color[1] = 0;
+			m_color[2] = 1;
+			m_color[3] = 1;
+		}
+		m_moveDir[0] = (((float)std::rand() / (float)RAND_MAX - 0.5f));
+		m_moveDir[1] = (((float)std::rand() / (float)RAND_MAX - 0.5f));
+
+		m_speed = 600.f;
+
+		m_size = 4;
+		m_life = 20;
+
+		m_lifeTime = 100000.f;
+	}
+	else if (type == OBJECT_ARROW)
+	{
+		if (teamType == RED_TEAM)
+		{
+			m_color[0] = 0.5;
+			m_color[1] = 0.2;
+			m_color[2] = 0.7;
+			m_color[3] = 1;
+		}
+		else if (teamType == BLUE_TEAM)
+		{
+			m_color[0] = 1;
+			m_color[1] = 1;
+			m_color[2] = 0;
+			m_color[3] = 1;
+		}
+
+		m_moveDir[0] = (((float)std::rand() / (float)RAND_MAX - 0.5f));
+		m_moveDir[1] = (((float)std::rand() / (float)RAND_MAX - 0.5f));
+
+		m_speed = 100.f;
+
+		m_size = 4;
+		m_life = 20;
+
+		m_lifeTime = 100000.f;
+	}
+
+	else
+	{
+		std::cout << "Wrong Object Type" << type << "\n";
 	}
 }
+
+
+Object::~Object()
+{
+}
+
 
 void Object::Update(float elapsedTime)
 {
-	int Timer = 0;
 
-	Timer += elapsedTime;
+	float elapsedTimeInSecond = elapsedTime * 0.001f ;
+	
+	m_lastBullet += elapsedTimeInSecond;
+	m_lastArrow += elapsedTimeInSecond;
 
-	float elapsedTimeInSecond = elapsedTime / 1000.f;
+	// 현재위치 = 이전위치 + 속도 * 시간
+		m_x = m_x + m_speed * m_moveDir[0] * elapsedTimeInSecond;
+		m_y = m_y + m_speed * m_moveDir[1] * elapsedTimeInSecond;
+	
 
-	m_fx = m_fx+ m_fSpeed * elapsedTime * m_vector_fx;
-	m_fy = m_fy + m_fSpeed * elapsedTime * m_vector_fy;
-
-
-	for (int i = 0; i < MAX_ARROWS_COUNT; ++i)
+	if (m_x > 250)
 	{
-		if (m_pArrow[i] == NULL)
-		{
-			if (Timer % 500 == 0)
-			{
-				m_pArrow[i] = new Object(m_fx, m_fy);
-				m_pArrow[i]->m_fz = 0.0;
-				m_pArrow[i]->m_fsize = 4.0;
-				m_pArrow[i]->m_color_r = 0.5;
-				m_pArrow[i]->m_color_g = 0.2;
-				m_pArrow[i]->m_color_b = 0.7;
-				m_pArrow[i]->m_color_a = 1.0;
-				m_pArrow[i]->m_fLife = 10.0;
-				m_pArrow[i]->m_fSpeed = 100.0;
-				m_pArrow[i]->m_vector_fx = 0.001f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
-				m_pArrow[i]->m_vector_fy = 0.001f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
-			}
-		}
+		m_x = 250;
+		m_moveDir[0] = -m_moveDir[0];
 
-		if (m_pArrow[i] != NULL)
-		{
-			m_pArrow[i]->m_fx = m_pArrow[i]->m_fx + m_fSpeed * elapsedTime * m_pArrow[i]->m_vector_fx;
-			m_pArrow[i]->m_fy = m_pArrow[i]->m_fy + m_fSpeed * elapsedTime * m_pArrow[i]->m_vector_fy;
-
-			if (m_pArrow[i]->m_fx > 250)
-			{
-				m_pArrow[i]->m_fx = 250;
-				m_pArrow[i]->m_vector_fx = -m_pArrow[i]->m_vector_fx;
-			}
-
-			if (m_pArrow[i]->m_fx < -250)
-			{
-				m_pArrow[i]->m_fx = -250;
-				m_pArrow[i]->m_vector_fx = -m_pArrow[i]->m_vector_fx;
-			}
-
-			if (m_pArrow[i]->m_fy > 400)
-			{
-				m_pArrow[i]->m_fy = 400;
-				m_pArrow[i]->m_vector_fy = -m_pArrow[i]->m_vector_fy;
-			}
-
-			if (m_pArrow[i]->m_fy < -400)
-			{
-				m_pArrow[i]->m_fy = -400;
-				m_pArrow[i]->m_vector_fy = -m_pArrow[i]->m_vector_fy;
-			}
-
-			if (m_pArrow[i]->m_fLife > 0.f)
-			{
-				//m_fLife -= 1;
-			}
-		}
+		if (m_type == OBJECT_BULLET)
+			m_life = 0.f;
 	}
 
-	//m_fx = m_fx + m_fSpeed * elapsedTimeInSecond * m_vector_fx;
-	//m_fy = m_fy + m_fSpeed * elapsedTimeInSecond * m_vector_fy;
-
-	//cout << elapsedTimeInSecond << endl;
-
-	if (m_fx > 250)
+	if (m_x < -250)
 	{
-		m_fx = 250;
-		m_vector_fx = -m_vector_fx;
+		m_x = -250;
+		m_moveDir[0] = -m_moveDir[0];
+
+		if (m_type == OBJECT_BULLET)
+			m_life = 0.f;			
 	}
 
-	if (m_fx < -250)
+	if (m_y > 400)
 	{
-		m_fx = -250;
-		m_vector_fx = -m_vector_fx;
+		m_y = 400;
+		m_moveDir[1] = -m_moveDir[1];
+
+		if (m_type == OBJECT_BULLET)
+			m_life = 0.f;
 	}
 
-	if (m_fy > 400)
+	if (m_y < -400)
 	{
-		m_fy = 400;
-		m_vector_fy = -m_vector_fy;
+		m_y = -400;
+		m_moveDir[1] = -m_moveDir[1];
+
+		if (m_type == OBJECT_BULLET)
+			m_life = 0.f;
 	}
-
-	if (m_fy < -400)
-	{
-		m_fy = -400;
-		m_vector_fy = -m_vector_fy;
-	}
-
-	if (m_fLife > 0.f)
-	{
-		//m_fLife -= 1;
-	}
-
-	if (m_fLifeTime > 0.f)
-	{
-		m_fLifeTime -= 1;
-	}
-
-
 }

@@ -1,32 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="헤더 파일">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Object">
+      <UniqueIdentifier>{46d052ec-9bca-4b93-9c37-976f45f74c45}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Shaders">
+    <Filter Include="SceneMgr">
+      <UniqueIdentifier>{aaced092-a0e9-477c-8bb8-f2ced42d0cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
       <UniqueIdentifier>{aa86e47f-445f-4440-9a76-173363b46c4e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Renderer">
-      <UniqueIdentifier>{f6ee2db4-426b-4b7b-acd6-9637735961a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Object">
-      <UniqueIdentifier>{14ae2915-085a-4e72-b9ef-747f70a749fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\SceneManager">
-      <UniqueIdentifier>{720d177c-15a8-4859-b0c7-53b4f2d9db6b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Textures">
+    <Filter Include="Textures">
       <UniqueIdentifier>{85463314-c4db-45e2-ae33-94fa57978c69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{f601a5a4-08b3-488f-94ea-4956b721e9ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame">
+      <UniqueIdentifier>{e021cd27-eec3-480a-87e7-9563fd041dd0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -39,57 +34,60 @@
     <ClInclude Include="targetver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>소스 파일\Object</Filter>
+    <ClInclude Include="LoadPng.h">
+      <Filter>Textures</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>소스 파일\SceneManager</Filter>
+    <ClInclude Include="Object.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMgr.h">
+      <Filter>SceneMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines.h">
+      <Filter>MainGame</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>소스 파일\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadPng.h">
-      <Filter>소스 파일\Textures</Filter>
+      <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="LoadPng.cpp">
+      <Filter>Textures</Filter>
+    </ClCompile>
     <ClCompile Include="Object.cpp">
-      <Filter>소스 파일\Object</Filter>
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMgr.cpp">
+      <Filter>SceneMgr</Filter>
     </ClCompile>
     <ClCompile Include="SimpleGame.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MainGame</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManger.cpp">
-      <Filter>소스 파일\SceneManager</Filter>
+      <Filter>헤더 파일</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>소스 파일\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadPng.cpp">
-      <Filter>소스 파일\Textures</Filter>
+      <Filter>Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\SolidRectWithTexture.fs">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\SolidRectWithTexture.vs">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\SolidRectWithTextureSeq.fs">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\SolidRectWithTextureSeq.vs">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\SolidRect.fs">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\SolidRect.vs">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>
