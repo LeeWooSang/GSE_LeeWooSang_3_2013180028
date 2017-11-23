@@ -14,8 +14,7 @@ using namespace std;
 #define RED_TEAM 0
 #define BLUE_TEAM 1
 
-
-#define MAX_OBJECTS_COUNT 300
+#define MAX_OBJECTS_COUNT 500
 
 #define OBJECT_CHARACTER 0
 #define OBJECT_BUILDING 1

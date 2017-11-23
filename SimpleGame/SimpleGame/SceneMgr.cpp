@@ -2,9 +2,9 @@
 #include "SceneMgr.h"
 
 
-SceneMgr::SceneMgr(int x , int y)
+SceneMgr::SceneMgr(int WindowWidth , int WindowHeight)
 {
-	m_Renderer = new Renderer(x, y);
+	m_Renderer = new Renderer(WindowWidth, WindowHeight);
 
 	if (m_Renderer->IsInitialized())
 	{
@@ -15,8 +15,8 @@ SceneMgr::SceneMgr(int x , int y)
 		m_objects[i] = NULL;
 	}
 
-	m_buildingTexture_team1 = m_Renderer->CreatePngTexture("./Textures/PNGs/castle3.png");
-	m_buildingTexture_team2 = m_Renderer->CreatePngTexture("./Textures/PNGs/castle6.png");
+	m_REDTEAM_buildingTexture = m_Renderer->CreatePngTexture("./Textures/PNGs/castle3.png");
+	m_BLUETEAM_buildingTexture = m_Renderer->CreatePngTexture("./Textures/PNGs/castle6.png");
 }
 
 SceneMgr::~SceneMgr()
@@ -53,7 +53,7 @@ void SceneMgr::UpdateAllObject(float elapsedTime)
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
 		if (m_objects[i] != NULL) {
-			if (m_objects[i]->GetLife() < 0.0001f || m_objects[i]->GetLifeTime() < 0.0001f)
+			if (m_objects[i]->Get_Life() < 0.0001f || m_objects[i]->Get_LifeTime() < 0.0001f)
 			{
 				delete m_objects[i];
 				m_objects[i] = NULL;
@@ -62,28 +62,28 @@ void SceneMgr::UpdateAllObject(float elapsedTime)
 			{
 				m_objects[i]->Update(elapsedTime);
 				// 빌딩이면 총알 생성
-				if (m_objects[i]->GetType() == OBJECT_BUILDING)
+				if (m_objects[i]->Get_Type() == OBJECT_BUILDING)
 				{
-					if (m_objects[i]->GetLastBullet() > 10.f)
+					if (m_objects[i]->Get_LastBullet() > 10.f)
 					{
-						int bulletID = CreateObject(m_objects[i]->GetPositionX(), m_objects[i]->GetPositionY(), OBJECT_BULLET, m_objects[i]->GetTeamType());
-						m_objects[i]->SetLastBullet(0.f);
+						int bulletID = CreateObject(m_objects[i]->Get_X(), m_objects[i]->Get_Y(), OBJECT_BULLET, m_objects[i]->Get_TeamType());
+						m_objects[i]->Set_LastBullet(0.f);
 						if (bulletID >= 0)
 						{
-							m_objects[bulletID]->SetParentID(i);
+							m_objects[bulletID]->Set_ParentID(i);
 						}
 					}
 				}
 				// 캐릭터이면 화살생성
-				else if (m_objects[i]->GetType() == OBJECT_CHARACTER)
+				else if (m_objects[i]->Get_Type() == OBJECT_CHARACTER)
 				{
-					if (m_objects[i]->GetLastArrow() > 3.f)
+					if (m_objects[i]->Get_LastArrow() > 3.f)
 					{
-						int arrowID = CreateObject(m_objects[i]->GetPositionX(), m_objects[i]->GetPositionY(), OBJECT_ARROW, m_objects[i]->GetTeamType());
-						m_objects[i]->SetLastArrow(0.f);
+						int arrowID = CreateObject(m_objects[i]->Get_X(), m_objects[i]->Get_Y(), OBJECT_ARROW, m_objects[i]->Get_TeamType());
+						m_objects[i]->Set_LastArrow(0.f);
 						if (arrowID >= 0)
 						{
-							m_objects[arrowID]->SetParentID(i);
+							m_objects[arrowID]->Set_ParentID(i);
 						}
 					}
 				}
@@ -103,78 +103,78 @@ void SceneMgr::DoColisionTest()
 		{
 			for (int j = i + 1; j < MAX_OBJECTS_COUNT; j++)
 			{
-				if (m_objects[j] != NULL && m_objects[i] != NULL && m_objects[j]->GetTeamType() != m_objects[i]->GetTeamType())
+				if (m_objects[j] != NULL && m_objects[i] != NULL && m_objects[j]->Get_TeamType() != m_objects[i]->Get_TeamType())
 				{
 					if (BoxColisionTest(m_objects[i], m_objects[j]))
 					{
 						//빌딩 - 캐릭터
-						if (m_objects[i]->GetType() == OBJECT_BUILDING  && m_objects[j]->GetType() == OBJECT_CHARACTER)
+						if (m_objects[i]->Get_Type() == OBJECT_BUILDING  && m_objects[j]->Get_Type() == OBJECT_CHARACTER)
 						{
-							m_objects[i]->SetDamage(m_objects[j]->GetLife());
-							m_objects[j]->SetLife(0.f);
+							m_objects[i]->Set_Damage(m_objects[j]->Get_Life());
+							m_objects[j]->Set_Life(0.f);
 							collisionCount++;
 						}
-						else if (m_objects[j]->GetType() == OBJECT_BUILDING && m_objects[i]->GetType() == OBJECT_CHARACTER)
+						else if (m_objects[j]->Get_Type() == OBJECT_BUILDING && m_objects[i]->Get_Type() == OBJECT_CHARACTER)
 						{
-							m_objects[j]->SetDamage(m_objects[i]->GetLife());
-							m_objects[i]->SetLife(0.f);
+							m_objects[j]->Set_Damage(m_objects[i]->Get_Life());
+							m_objects[i]->Set_Life(0.f);
 							collisionCount++;
 						}
 						// 캐릭터 - 총알
-						else if (m_objects[i]->GetType() == OBJECT_CHARACTER && m_objects[j]->GetType() == OBJECT_BULLET)
+						else if (m_objects[i]->Get_Type() == OBJECT_CHARACTER && m_objects[j]->Get_Type() == OBJECT_BULLET)
 						{
-							m_objects[i]->SetDamage(m_objects[j]->GetLife());
-							m_objects[j]->SetLife(0.f);
+							m_objects[i]->Set_Damage(m_objects[j]->Get_Life());
+							m_objects[j]->Set_Life(0.f);
 						}
-						else if (m_objects[j]->GetType() == OBJECT_CHARACTER && m_objects[i]->GetType() == OBJECT_BULLET)
+						else if (m_objects[j]->Get_Type() == OBJECT_CHARACTER && m_objects[i]->Get_Type() == OBJECT_BULLET)
 						{
-							m_objects[j]->SetDamage(m_objects[i]->GetLife());
-							m_objects[i]->SetLife(0.f);
+							m_objects[j]->Set_Damage(m_objects[i]->Get_Life());
+							m_objects[i]->Set_Life(0.f);
 						}
 						// 빌딩 - 화살
-						else if (m_objects[i]->GetType() == OBJECT_BUILDING && m_objects[j]->GetType() == OBJECT_ARROW)
+						else if (m_objects[i]->Get_Type() == OBJECT_BUILDING && m_objects[j]->Get_Type() == OBJECT_ARROW)
 						{
-							m_objects[i]->SetDamage(m_objects[j]->GetLife());
-							m_objects[j]->SetLife(0.f);
+							m_objects[i]->Set_Damage(m_objects[j]->Get_Life());
+							m_objects[j]->Set_Life(0.f);
 						}
-						else if (m_objects[j]->GetType() == OBJECT_BUILDING && m_objects[i]->GetType() == OBJECT_ARROW)
+						else if (m_objects[j]->Get_Type() == OBJECT_BUILDING && m_objects[i]->Get_Type() == OBJECT_ARROW)
 						{
-							m_objects[j]->SetDamage(m_objects[i]->GetLife());
-							m_objects[i]->SetLife(0.f);
+							m_objects[j]->Set_Damage(m_objects[i]->Get_Life());
+							m_objects[i]->Set_Life(0.f);
 						}
 						// 캐릭터 - 화살
-						else if (m_objects[i]->GetType() == OBJECT_CHARACTER && m_objects[j]->GetType() == OBJECT_ARROW )
+						else if (m_objects[i]->Get_Type() == OBJECT_CHARACTER && m_objects[j]->Get_Type() == OBJECT_ARROW )
 						{
-							if (m_objects[j]->GetParentID() != i)
+							if (m_objects[j]->Get_ParentID() != i)
 							{
-								m_objects[i]->SetDamage(m_objects[j]->GetLife());
-								m_objects[j]->SetLife(0.f);
+								m_objects[i]->Set_Damage(m_objects[j]->Get_Life());
+								m_objects[j]->Set_Life(0.f);
 
 								for (int k = 0; k < MAX_OBJECTS_COUNT; ++k)
 								{
 									if (m_objects[k] != NULL)
 									{
-										if (m_objects[k]->GetParentID() == i)
+										if (m_objects[k]->Get_ParentID() == i)
 										{
-											m_objects[k]->SetParentID(-1);
+											m_objects[k]->Set_ParentID(-1);
 										}
 									}
 								}
 							}
 						}
-						else if (m_objects[j]->GetType() == OBJECT_CHARACTER && m_objects[i]->GetType() == OBJECT_ARROW)
+						else if (m_objects[j]->Get_Type() == OBJECT_CHARACTER && m_objects[i]->Get_Type() == OBJECT_ARROW)
 						{
-							if (m_objects[i]->GetParentID() != j)
+							if (m_objects[i]->Get_ParentID() != j)
 							{
-								m_objects[j]->SetDamage(m_objects[i]->GetLife());
-								m_objects[i]->SetLife(0.f);
+								m_objects[j]->Set_Damage(m_objects[i]->Get_Life());
+								m_objects[i]->Set_Life(0.f);
 								for (int k = 0; k < MAX_OBJECTS_COUNT; ++k)
 								{
 									if (m_objects[k] != NULL)
 									{
-										if (m_objects[k]->GetParentID() == j)
+										if (m_objects[k]->Get_ParentID() == j)
 										{
-											m_objects[k]->SetParentID(-1);
+											m_objects[k]->Set_ParentID(-1);
 										}
 									}
 								}
@@ -196,24 +196,29 @@ void SceneMgr::DrawAllObject()
 	{
 			if (m_objects[i] != NULL) 
 			{
-				if (m_objects[i]->GetType() == OBJECT_BUILDING)
+				if (m_objects[i]->Get_Type() == OBJECT_BUILDING)
 				{
-					if (m_objects[i]->GetTeamType() == RED_TEAM)
+					if (m_objects[i]->Get_TeamType() == RED_TEAM)
 					{
-						m_Renderer->DrawTexturedRect(m_objects[i]->GetPositionX(), m_objects[i]->GetPositionY(), 0, m_objects[i]->GetSize(), 1, 1, 1, 1, m_buildingTexture_team1);
+						m_Renderer->DrawTexturedRect(m_objects[i]->Get_X(), m_objects[i]->Get_Y(), 0, m_objects[i]->Get_Size(), 1, 1, 1, 1, m_REDTEAM_buildingTexture);
 					}
-					else if (m_objects[i]->GetTeamType() == BLUE_TEAM)
+					else if (m_objects[i]->Get_TeamType() == BLUE_TEAM)
 					{
-						m_Renderer->DrawTexturedRect(m_objects[i]->GetPositionX(), m_objects[i]->GetPositionY(), 0, m_objects[i]->GetSize(), 1, 1, 1, 1, m_buildingTexture_team2);
+						m_Renderer->DrawTexturedRect(m_objects[i]->Get_X(), m_objects[i]->Get_Y(), 0, m_objects[i]->Get_Size(), 1, 1, 1, 1, m_BLUETEAM_buildingTexture);
 
 					}
 				}
 				else
 				{
-					m_Renderer->DrawSolidRect(m_objects[i]->GetPositionX(), m_objects[i]->GetPositionY(), m_objects[i]->GetPositionZ(),
-						m_objects[i]->GetSize(), m_objects[i]->GetColorRed(),
-						m_objects[i]->GetColorGreen(), m_objects[i]->GetColorBlue(),
-						m_objects[i]->GetColorAlpha());
+					m_Renderer->DrawSolidRect(
+						m_objects[i]->Get_X(), 
+						m_objects[i]->Get_Y(), 
+						m_objects[i]->Get_Z(),
+						m_objects[i]->Get_Size(), 
+						m_objects[i]->Get_Color_R(),
+						m_objects[i]->Get_Color_G(), 
+						m_objects[i]->Get_Color_B(),
+						m_objects[i]->Get_Color_A());
 				}
 			}
 	}
@@ -222,13 +227,13 @@ void SceneMgr::DrawAllObject()
 
 bool SceneMgr::BoxColisionTest(Object* a, Object* b)
 {
-	if (a->GetPositionX() + a->GetHalfSize() < b->GetPositionX() - b->GetHalfSize()
-			|| a->GetPositionX() - a->GetHalfSize() > b->GetPositionX() + b->GetHalfSize()) {
+	if (a->Get_X() + a->Get_HalfSize() < b->Get_X() - b->Get_HalfSize()
+			|| a->Get_X() - a->Get_HalfSize() > b->Get_X() + b->Get_HalfSize()) {
 			return false;
 		}
 
-		if (a->GetPositionY() + a->GetHalfSize() < b->GetPositionY() - b->GetHalfSize()
-			|| a->GetPositionY() - a->GetHalfSize() > b->GetPositionY() + b->GetHalfSize()) {
+		if (a->Get_Y() + a->Get_HalfSize() < b->Get_Y() - b->Get_HalfSize()
+			|| a->Get_Y() - a->Get_HalfSize() > b->Get_Y() + b->Get_HalfSize()) {
 			return false;
 		}
 

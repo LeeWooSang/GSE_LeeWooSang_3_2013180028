@@ -7,7 +7,7 @@ class SceneMgr
 {
 
 public:
-	SceneMgr(int x , int y);
+	SceneMgr(int WindowWidth , int WindowHeight);
 	~SceneMgr();
 
 	// 오브젝트 생성
@@ -34,7 +34,7 @@ private:
 
 	int objectType;
 
-	GLuint m_buildingTexture_team1 = 0;
-	GLuint m_buildingTexture_team2 = 0;
+	GLuint m_REDTEAM_buildingTexture = 0;
+	GLuint m_BLUETEAM_buildingTexture = 0;
 };
 
