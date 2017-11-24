@@ -1,13 +1,3 @@
-/*
-Copyright 2017 Lee Taek Hee (Korea Polytech University)
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the What The Hell License. Do it plz.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY.
-*/
-
 #include "stdafx.h"
 #include "Defines.h"
 
@@ -22,6 +12,7 @@ DWORD g_prevTime = 0;
 
 bool ButtonDown = false;
 float CoolTime = 0.f;
+bool MouseCool = false;
 
 void RenderScene(void)
 {
@@ -32,15 +23,23 @@ void RenderScene(void)
 	DWORD elapsedTime = currTime - g_prevTime;
 	g_prevTime = currTime;
 
+	CoolTime -= elapsedTime * 0.001f;
+
 	if (CoolTime <= 0.f)
 	{
 		CoolTime = 0;
-		cout << "캐릭터 생성 가능!!" << endl;
+
+		if (MouseCool == false)
+		{
+			cout << "\n캐릭터 생성 가능!!\n" << endl;
+			MouseCool = true;
+		}
 	}
 	else
 	{
-		CoolTime -= elapsedTime * 0.001f;
-		cout << " 마우스 쿨타임 : " << CoolTime << "초 남았습니다." << endl;
+		 //소수 셋째 자리까지
+		cout.precision(3);
+		cout << " 마우스 쿨타임 : " << fixed << CoolTime << "초 남았습니다." << endl;
 	}
 
 	g_SceneMgr->UpdateAllObject(float(elapsedTime));
@@ -59,12 +58,16 @@ void MouseInput(int button, int state, int x, int y)
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 		ButtonDown = true;
 
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
-		if (ButtonDown) {
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
+	{
+		if (ButtonDown)
+		{
 			if (CoolTime <= 0.f && (Window_Half_HEIGHT)-y < 0.f)
 			{
 				g_SceneMgr->InitObject(x - (Window_Half_WIDTH), (Window_Half_HEIGHT)-y, OBJECT_CHARACTER, BLUE_TEAM);
+				// 마우스 쿨타임 3초
 				CoolTime = 3.f;
+				MouseCool = false;
 			}
 		}
 		ButtonDown = false;
