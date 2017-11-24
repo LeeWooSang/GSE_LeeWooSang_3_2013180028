@@ -1,4 +1,6 @@
 #pragma once
+#include "Defines.h"
+
 class Object
 {
 public:
