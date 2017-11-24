@@ -63,7 +63,7 @@ void MouseInput(int button, int state, int x, int y)
 		if (ButtonDown) {
 			if (CoolTime <= 0.f && (Window_Half_HEIGHT)-y < 0.f)
 			{
-				g_SceneMgr->CreateObject(x - (Window_Half_WIDTH), (Window_Half_HEIGHT)-y, OBJECT_CHARACTER, BLUE_TEAM);
+				g_SceneMgr->InitObject(x - (Window_Half_WIDTH), (Window_Half_HEIGHT)-y, OBJECT_CHARACTER, BLUE_TEAM);
 				CoolTime = 3.f;
 			}
 		}
@@ -112,13 +112,13 @@ int main(int argc, char **argv)
 
    g_SceneMgr = new SceneMgr(WIDTH, HEIGHT);
 
-   g_SceneMgr->CreateObject(0, 300, OBJECT_BUILDING, RED_TEAM);
-   g_SceneMgr->CreateObject(-150, 300, OBJECT_BUILDING, RED_TEAM);
-   g_SceneMgr->CreateObject(150, 300, OBJECT_BUILDING, RED_TEAM);
+   g_SceneMgr->InitObject(0, 300, OBJECT_BUILDING, RED_TEAM);
+   g_SceneMgr->InitObject(-150, 300, OBJECT_BUILDING, RED_TEAM);
+   g_SceneMgr->InitObject(150, 300, OBJECT_BUILDING, RED_TEAM);
 
-   g_SceneMgr->CreateObject(0, -300, OBJECT_BUILDING, BLUE_TEAM);
-   g_SceneMgr->CreateObject(-150, -300, OBJECT_BUILDING, BLUE_TEAM);
-   g_SceneMgr->CreateObject(150, -300, OBJECT_BUILDING, BLUE_TEAM);
+   g_SceneMgr->InitObject(0, -300, OBJECT_BUILDING, BLUE_TEAM);
+   g_SceneMgr->InitObject(-150, -300, OBJECT_BUILDING, BLUE_TEAM);
+   g_SceneMgr->InitObject(150, -300, OBJECT_BUILDING, BLUE_TEAM);
 
 	g_prevTime = timeGetTime();
 

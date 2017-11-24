@@ -10,7 +10,7 @@ public:
 	SceneMgr(int WindowWidth , int WindowHeight);
 	~SceneMgr();
 
-	int CreateObject(float x, float y, int objectType, int teamType);
+	int InitObject(float x, float y, int objectType, int teamType);
 	void DeleteObject(int index);
 
 	void UpdateAllObject(float elpasedTime);

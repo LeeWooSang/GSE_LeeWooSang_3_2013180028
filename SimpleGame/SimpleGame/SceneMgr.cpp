@@ -23,7 +23,7 @@ SceneMgr::~SceneMgr()
 	delete m_Renderer;
 }
 
-int SceneMgr::CreateObject(float x, float y, int objectType, int teamType)
+int SceneMgr::InitObject(float x, float y, int objectType, int teamType)
 {
 	for (int i = 0; i < MAX_OBJECTS_COUNT; i++)
 	{
@@ -45,7 +45,7 @@ void SceneMgr::UpdateAllObject(float elapsedTime)
 	//적을 3초마다 한번씩 생성
 	if (enemyCooltime > 3.f)
 	{
-		CreateObject(float( rand() % 250 - 250 ) , float  ( rand() % 200 + 50 ) , OBJECT_CHARACTER, RED_TEAM);
+		InitObject(float( rand() % 250 - 250 ) , float  ( rand() % 200 + 50 ) , OBJECT_CHARACTER, RED_TEAM);
 		enemyCooltime = 0.f;
 	}
 
@@ -68,7 +68,7 @@ void SceneMgr::UpdateAllObject(float elapsedTime)
 					// 5초마다 총알 생성
 					if (m_objects[i]->Get_LastBullet() > 5.f)
 					{
-						int bulletID = CreateObject(m_objects[i]->Get_X(), m_objects[i]->Get_Y(), OBJECT_BULLET, m_objects[i]->Get_TeamType());
+						int bulletID = InitObject(m_objects[i]->Get_X(), m_objects[i]->Get_Y(), OBJECT_BULLET, m_objects[i]->Get_TeamType());
 						m_objects[i]->Set_LastBullet(0.f);
 						if (bulletID >= 0)
 						{
@@ -81,7 +81,7 @@ void SceneMgr::UpdateAllObject(float elapsedTime)
 				{
 					if (m_objects[i]->Get_LastArrow() > 3.f)
 					{
-						int arrowID = CreateObject(m_objects[i]->Get_X(), m_objects[i]->Get_Y(), OBJECT_ARROW, m_objects[i]->Get_TeamType());
+						int arrowID = InitObject(m_objects[i]->Get_X(), m_objects[i]->Get_Y(), OBJECT_ARROW, m_objects[i]->Get_TeamType());
 						m_objects[i]->Set_LastArrow(0.f);
 						if (arrowID >= 0)
 						{
