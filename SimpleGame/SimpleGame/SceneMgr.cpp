@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "SceneMgr.h"
 
-
 SceneMgr::SceneMgr(int WindowWidth , int WindowHeight)
 {
 	m_Renderer = new Renderer(WindowWidth, WindowHeight);
@@ -123,6 +122,7 @@ void SceneMgr::DoColisionTest()
 							m_objects[j]->Set_Life(0.f);
 							++collisionCount;
 						}
+
 						else if (m_objects[j]->Get_Type() == OBJECT_BUILDING && m_objects[i]->Get_Type() == OBJECT_CHARACTER)
 						{
 							// 빌딩 게이지 감소
@@ -138,6 +138,7 @@ void SceneMgr::DoColisionTest()
 						// 빌딩 - 총알
 						else if (m_objects[i]->Get_Type() == OBJECT_BUILDING && m_objects[j]->Get_Type() == OBJECT_BULLET)
 						{
+
 							// 빌딩 게이지 감소
 							m_objects[i]->Set_Damage_Gauge(m_objects[j]->Get_Life() / m_objects[i]->Get_Life());
 
@@ -147,12 +148,23 @@ void SceneMgr::DoColisionTest()
 							m_objects[j]->Set_Life(0.f);
 							++collisionCount;
 							//cout << "건물체력 : " << m_objects[i]->Get_Life() << endl;
+
 						}
 
 						else if (m_objects[j]->Get_Type() == OBJECT_BUILDING && m_objects[i]->Get_Type() == OBJECT_BULLET)
 						{
 							m_objects[j]->Set_Damage_Gauge(m_objects[i]->Get_Life() / m_objects[j]->Get_Life());
 
+							m_objects[j]->Set_Damage(m_objects[i]->Get_Life());
+							// 총알 체력 0
+							m_objects[i]->Set_Life(0.f);
+							++collisionCount;
+							//cout << "건물체력 : " << m_objects[j]->Get_Life() << endl;
+						}
+
+
+						else if (m_objects[j]->Get_Type() == OBJECT_BUILDING && m_objects[i]->Get_Type() == OBJECT_BULLET)
+						{
 							m_objects[j]->Set_Damage(m_objects[i]->Get_Life());
 							// 총알 체력 0
 							m_objects[i]->Set_Life(0.f);
@@ -184,6 +196,7 @@ void SceneMgr::DoColisionTest()
 							m_objects[i]->Set_Damage(m_objects[j]->Get_Life());
 							m_objects[j]->Set_Life(0.f);
 						}
+
 						else if (m_objects[j]->Get_Type() == OBJECT_BUILDING && m_objects[i]->Get_Type() == OBJECT_ARROW)
 						{
 							m_objects[j]->Set_Damage_Gauge(m_objects[i]->Get_Life() / m_objects[j]->Get_Life());
@@ -191,6 +204,7 @@ void SceneMgr::DoColisionTest()
 							m_objects[j]->Set_Damage(m_objects[i]->Get_Life());
 							m_objects[i]->Set_Life(0.f);
 						}
+
 						// 캐릭터 - 화살
 						else if (m_objects[i]->Get_Type() == OBJECT_CHARACTER && m_objects[j]->Get_Type() == OBJECT_ARROW )
 						{
@@ -206,13 +220,12 @@ void SceneMgr::DoColisionTest()
 									if (m_objects[k] != NULL)
 									{
 										if (m_objects[k]->Get_ParentID() == i)
-										{
-											m_objects[k]->Set_ParentID(-1);
-										}
+											m_objects[k]->Set_ParentID(-1);			
 									}
 								}
 							}
 						}
+
 						else if (m_objects[j]->Get_Type() == OBJECT_CHARACTER && m_objects[i]->Get_Type() == OBJECT_ARROW)
 						{
 							if (m_objects[i]->Get_ParentID() != j)
@@ -221,18 +234,16 @@ void SceneMgr::DoColisionTest()
 
 								m_objects[j]->Set_Damage(m_objects[i]->Get_Life());
 								m_objects[i]->Set_Life(0.f);
+
 								for (int k = 0; k < MAX_OBJECTS_COUNT; ++k)
 								{
 									if (m_objects[k] != NULL)
 									{
 										if (m_objects[k]->Get_ParentID() == j)
-										{
-											m_objects[k]->Set_ParentID(-1);
-										}
+											m_objects[k]->Set_ParentID(-1);		
 									}
 								}
 							}
-
 						}
 					}
 				}
@@ -240,11 +251,10 @@ void SceneMgr::DoColisionTest()
 		}
 	}
 }
-
+	
 
 void SceneMgr::DrawAllObject()
 {
-
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
 		if (m_objects[i] != NULL)

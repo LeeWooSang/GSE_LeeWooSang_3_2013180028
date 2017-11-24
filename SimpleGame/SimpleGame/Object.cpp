@@ -65,6 +65,8 @@ Object::Object(float x, float y, int type , int teamType) :
 
 		m_lifeTime = 100000.f;
 
+
+
 		m_fgauge_width = m_fsize;
 		m_fgauge_height = m_fsize / 8.f;
 		m_fgauge = 1.0;
