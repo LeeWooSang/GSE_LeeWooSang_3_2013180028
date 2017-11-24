@@ -25,6 +25,18 @@ public:
 
 	void Set_Color(float red, float green, float blue, float alpha)		{ m_color[0] = red, m_color[1] = green, m_color[2] = blue, m_color[3] = alpha; }
 
+	float Get_Level()																	{ return m_flevel; }
+	void Set_Level(float val)														{ m_flevel = val; }
+
+	float Get_Gauge_Width()														{ return m_fgauge_width; }
+	void Set_Gauge_Width(float val)											{ m_fgauge_width = val; }
+
+	float Get_Gauge_Height()														{ return m_fgauge_height; }
+	void Set_Gauge_Height(float val)											{ m_fgauge_height = val; }
+
+	float Get_Gauge()																{ return m_fgauge; }
+	void Set_Gauge(float val)														{ m_fgauge = val; }
+
 	bool Get_IsColision()															{ return m_isColision; }
 	void Set_IsColision(bool a)													{ m_isColision = a; }
 
@@ -64,7 +76,13 @@ private:
 	float m_fz;
 	float m_fsize;
 	float m_color[4];		// R G B A
+	
+	float m_flevel;	// 빌드 레벨
 
+	// 게이지 : 가로 세로 게이지 값
+	float m_fgauge_width;
+	float m_fgauge_height;
+	float m_fgauge;
 
 	float m_vector[2];	// vectorX, vectorY
 	float m_fspeed;

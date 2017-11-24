@@ -15,7 +15,6 @@ Object::Object(float x, float y, int type , int teamType) :
 	m_lastBullet(0.f),
 	m_lastArrow(0.f),
 	m_teamType(teamType)
-
 {
 	if (type == OBJECT_BUILDING)
 	{
@@ -28,11 +27,16 @@ Object::Object(float x, float y, int type , int teamType) :
 		m_vector[1] = 0;
 
 		m_fspeed = 0.f;
+		m_flevel = 0.1f;
 
 		m_fsize = 100;
 		m_life = 500;
 
 		m_lifeTime = 100000.f;
+
+		m_fgauge_width = m_fsize;
+		m_fgauge_height = m_fsize / 10.f;
+		m_fgauge = 1.0;
 	}
 	else if (type == OBJECT_CHARACTER)
 	{
@@ -54,11 +58,16 @@ Object::Object(float x, float y, int type , int teamType) :
 		m_vector[1] = (((float)std::rand() / (float)RAND_MAX - 0.5f));
 
 		m_fspeed = 300.f;
+		m_flevel = 0.2f;
 
-		m_fsize = 10;
-		m_life = 10;
+		m_fsize = 30;
+		m_life = 100;
 
 		m_lifeTime = 100000.f;
+
+		m_fgauge_width = m_fsize;
+		m_fgauge_height = m_fsize / 10.f;
+		m_fgauge = 1.0;
 	}
 	else if (type == OBJECT_BULLET)
 	{
@@ -80,6 +89,7 @@ Object::Object(float x, float y, int type , int teamType) :
 		m_vector[1] = (((float)std::rand() / (float)RAND_MAX - 0.5f));
 
 		m_fspeed = 600.f;
+		m_flevel = 0.3f;
 
 		m_fsize = 4;
 		m_life = 20;
@@ -107,6 +117,7 @@ Object::Object(float x, float y, int type , int teamType) :
 		m_vector[1] = (((float)std::rand() / (float)RAND_MAX - 0.5f));
 
 		m_fspeed = 100.f;
+		m_flevel = 0.3f;
 
 		m_fsize = 4;
 		m_life = 20;
@@ -144,8 +155,8 @@ void Object::Update(float elapsedTime)
 		m_fx = 250;
 		m_vector[0] = -m_vector[0];
 
-		//if (m_type == OBJECT_BULLET)
-			//m_life = 0.f;
+		if (m_type == OBJECT_BULLET || m_type == OBJECT_ARROW)
+			m_life = 0.f;
 	}
 
 	if (m_fx < -250)
@@ -153,8 +164,8 @@ void Object::Update(float elapsedTime)
 		m_fx = -250;
 		m_vector[0] = -m_vector[0];
 
-		//if (m_type == OBJECT_BULLET)
-			//m_life = 0.f;			
+		if (m_type == OBJECT_BULLET || m_type == OBJECT_ARROW)
+			m_life = 0.f;			
 	}
 
 	if (m_fy > 400)
@@ -162,8 +173,8 @@ void Object::Update(float elapsedTime)
 		m_fy = 400;
 		m_vector[1] = -m_vector[1];
 
-		//if (m_type == OBJECT_BULLET)
-			//m_life = 0.f;
+		if (m_type == OBJECT_BULLET || m_type == OBJECT_ARROW)
+			m_life = 0.f;
 	}
 
 	if (m_fy < -400)
@@ -171,7 +182,7 @@ void Object::Update(float elapsedTime)
 		m_fy = -400;
 		m_vector[1] = -m_vector[1];
 
-		//if (m_type == OBJECT_BULLET)
-			//m_life = 0.f;
+		if (m_type == OBJECT_BULLET || m_type == OBJECT_ARROW)
+			m_life = 0.f;
 	}
 }
