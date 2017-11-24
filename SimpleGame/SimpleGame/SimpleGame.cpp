@@ -33,12 +33,16 @@ void RenderScene(void)
 	g_prevTime = currTime;
 
 	if (CoolTime <= 0.f)
+	{
 		CoolTime = 0;
-
+		cout << "캐릭터 생성 가능!!" << endl;
+	}
 	else
+	{
 		CoolTime -= elapsedTime * 0.001f;
-	cout << " 마우스 쿨타임 : " << CoolTime << endl;
-	
+		cout << " 마우스 쿨타임 : " << CoolTime << "초 남았습니다." << endl;
+	}
+
 	g_SceneMgr->UpdateAllObject(float(elapsedTime));
 	g_SceneMgr -> DrawAllObject();
 
@@ -60,7 +64,7 @@ void MouseInput(int button, int state, int x, int y)
 			if (CoolTime <= 0.f && (Window_Half_HEIGHT)-y < 0.f)
 			{
 				g_SceneMgr->CreateObject(x - (Window_Half_WIDTH), (Window_Half_HEIGHT)-y, OBJECT_CHARACTER, BLUE_TEAM);
-				CoolTime = 7.f;
+				CoolTime = 3.f;
 			}
 		}
 		ButtonDown = false;

@@ -43,8 +43,8 @@ void SceneMgr::UpdateAllObject(float elapsedTime)
 
 	enemyCooltime += elapsedTime * 0.001f;
 
-	//적을 5초마다 한번씩 생성
-	if (enemyCooltime > 5.f)
+	//적을 3초마다 한번씩 생성
+	if (enemyCooltime > 3.f)
 	{
 		CreateObject(float( rand() % 250 - 250 ) , float  ( rand() % 200 + 50 ) , OBJECT_CHARACTER, RED_TEAM);
 		enemyCooltime = 0.f;
@@ -52,7 +52,8 @@ void SceneMgr::UpdateAllObject(float elapsedTime)
 
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
-		if (m_objects[i] != NULL) {
+		if (m_objects[i] != NULL) 
+		{
 			if (m_objects[i]->Get_Life() < 0.0001f || m_objects[i]->Get_LifeTime() < 0.0001f)
 			{
 				delete m_objects[i];
@@ -61,10 +62,12 @@ void SceneMgr::UpdateAllObject(float elapsedTime)
 			else
 			{
 				m_objects[i]->Update(elapsedTime);
+
 				// 빌딩이면 총알 생성
 				if (m_objects[i]->Get_Type() == OBJECT_BUILDING)
 				{
-					if (m_objects[i]->Get_LastBullet() > 10.f)
+					// 5초마다 총알 생성
+					if (m_objects[i]->Get_LastBullet() > 5.f)
 					{
 						int bulletID = CreateObject(m_objects[i]->Get_X(), m_objects[i]->Get_Y(), OBJECT_BULLET, m_objects[i]->Get_TeamType());
 						m_objects[i]->Set_LastBullet(0.f);
@@ -110,35 +113,81 @@ void SceneMgr::DoColisionTest()
 						//빌딩 - 캐릭터
 						if (m_objects[i]->Get_Type() == OBJECT_BUILDING  && m_objects[j]->Get_Type() == OBJECT_CHARACTER)
 						{
+							// 빌딩 게이지 감소
+							m_objects[i]->Set_Damage_Gauge(m_objects[j]->Get_Life() / m_objects[i]->Get_Life());
+
+							// 빌딩 체력 감소
 							m_objects[i]->Set_Damage(m_objects[j]->Get_Life());
+
+							m_objects[j]->Set_Gauge(0.f);
 							m_objects[j]->Set_Life(0.f);
-							collisionCount++;
+							++collisionCount;
 						}
 						else if (m_objects[j]->Get_Type() == OBJECT_BUILDING && m_objects[i]->Get_Type() == OBJECT_CHARACTER)
 						{
+							// 빌딩 게이지 감소
+							m_objects[j]->Set_Damage_Gauge(m_objects[i]->Get_Life() / m_objects[j]->Get_Life());
+
 							m_objects[j]->Set_Damage(m_objects[i]->Get_Life());
+
+							m_objects[i]->Set_Gauge(0.f);
 							m_objects[i]->Set_Life(0.f);
-							collisionCount++;
+							++collisionCount;
 						}
+
+						// 빌딩 - 총알
+						else if (m_objects[i]->Get_Type() == OBJECT_BUILDING && m_objects[j]->Get_Type() == OBJECT_BULLET)
+						{
+							// 빌딩 게이지 감소
+							m_objects[i]->Set_Damage_Gauge(m_objects[j]->Get_Life() / m_objects[i]->Get_Life());
+
+							m_objects[i]->Set_Damage(m_objects[j]->Get_Life());
+
+							// 총알 체력 0
+							m_objects[j]->Set_Life(0.f);
+							++collisionCount;
+							//cout << "건물체력 : " << m_objects[i]->Get_Life() << endl;
+						}
+
+						else if (m_objects[j]->Get_Type() == OBJECT_BUILDING && m_objects[i]->Get_Type() == OBJECT_BULLET)
+						{
+							m_objects[j]->Set_Damage_Gauge(m_objects[i]->Get_Life() / m_objects[j]->Get_Life());
+
+							m_objects[j]->Set_Damage(m_objects[i]->Get_Life());
+							// 총알 체력 0
+							m_objects[i]->Set_Life(0.f);
+							++collisionCount;
+							//cout << "건물체력 : " << m_objects[j]->Get_Life() << endl;
+						}
+
 						// 캐릭터 - 총알
 						else if (m_objects[i]->Get_Type() == OBJECT_CHARACTER && m_objects[j]->Get_Type() == OBJECT_BULLET)
 						{
+							m_objects[i]->Set_Damage_Gauge(m_objects[j]->Get_Life() / m_objects[i]->Get_Life());
+
 							m_objects[i]->Set_Damage(m_objects[j]->Get_Life());
 							m_objects[j]->Set_Life(0.f);
 						}
 						else if (m_objects[j]->Get_Type() == OBJECT_CHARACTER && m_objects[i]->Get_Type() == OBJECT_BULLET)
 						{
+							m_objects[j]->Set_Damage_Gauge(m_objects[i]->Get_Life() / m_objects[j]->Get_Life());
+
 							m_objects[j]->Set_Damage(m_objects[i]->Get_Life());
 							m_objects[i]->Set_Life(0.f);
 						}
+
 						// 빌딩 - 화살
 						else if (m_objects[i]->Get_Type() == OBJECT_BUILDING && m_objects[j]->Get_Type() == OBJECT_ARROW)
 						{
+							m_objects[i]->Set_Damage_Gauge(m_objects[j]->Get_Life() / m_objects[i]->Get_Life());
+
 							m_objects[i]->Set_Damage(m_objects[j]->Get_Life());
 							m_objects[j]->Set_Life(0.f);
 						}
 						else if (m_objects[j]->Get_Type() == OBJECT_BUILDING && m_objects[i]->Get_Type() == OBJECT_ARROW)
 						{
+							m_objects[j]->Set_Damage_Gauge(m_objects[i]->Get_Life() / m_objects[j]->Get_Life());
+
 							m_objects[j]->Set_Damage(m_objects[i]->Get_Life());
 							m_objects[i]->Set_Life(0.f);
 						}
@@ -147,6 +196,8 @@ void SceneMgr::DoColisionTest()
 						{
 							if (m_objects[j]->Get_ParentID() != i)
 							{
+								m_objects[i]->Set_Damage_Gauge(m_objects[j]->Get_Life() / m_objects[i]->Get_Life());
+
 								m_objects[i]->Set_Damage(m_objects[j]->Get_Life());
 								m_objects[j]->Set_Life(0.f);
 
@@ -166,6 +217,8 @@ void SceneMgr::DoColisionTest()
 						{
 							if (m_objects[i]->Get_ParentID() != j)
 							{
+								m_objects[j]->Set_Damage_Gauge(m_objects[i]->Get_Life() / m_objects[j]->Get_Life());
+
 								m_objects[j]->Set_Damage(m_objects[i]->Get_Life());
 								m_objects[i]->Set_Life(0.f);
 								for (int k = 0; k < MAX_OBJECTS_COUNT; ++k)
@@ -192,35 +245,106 @@ void SceneMgr::DoColisionTest()
 void SceneMgr::DrawAllObject()
 {
 
-	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i) 
+	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
-			if (m_objects[i] != NULL) 
+		if (m_objects[i] != NULL)
+		{
+			if (m_objects[i]->Get_Type() == OBJECT_BUILDING)
 			{
-				if (m_objects[i]->Get_Type() == OBJECT_BUILDING)
+				if (m_objects[i]->Get_TeamType() == RED_TEAM)
 				{
-					if (m_objects[i]->Get_TeamType() == RED_TEAM)
-					{
-						m_Renderer->DrawTexturedRect(m_objects[i]->Get_X(), m_objects[i]->Get_Y(), 0, m_objects[i]->Get_Size(), 1, 1, 1, 1, m_REDTEAM_buildingTexture);
-					}
-					else if (m_objects[i]->Get_TeamType() == BLUE_TEAM)
-					{
-						m_Renderer->DrawTexturedRect(m_objects[i]->Get_X(), m_objects[i]->Get_Y(), 0, m_objects[i]->Get_Size(), 1, 1, 1, 1, m_BLUETEAM_buildingTexture);
+					m_Renderer->DrawTexturedRect(
+						m_objects[i]->Get_X(),
+						m_objects[i]->Get_Y(),
+						0, // Z
+						m_objects[i]->Get_Size(),
+						1, 1, 1, 1, // R, G, B, A
+						m_REDTEAM_buildingTexture,
+						m_objects[i]->Get_Level());
 
-					}
+					// 게이지 바
+					m_Renderer->DrawSolidRectGauge(
+						m_objects[i]->Get_X(),
+						m_objects[i]->Get_Y() + 60,
+						0, // Z
+						m_objects[i]->Get_Gauge_Width(),
+						m_objects[i]->Get_Gauge_Height(),
+						1, 0, 0, 1, // R, G, B, A
+						m_objects[i]->Get_Gauge(),
+						m_objects[i]->Get_Level()
+					);
+				}
+				else if (m_objects[i]->Get_TeamType() == BLUE_TEAM)
+				{
+					m_Renderer->DrawTexturedRect(
+						m_objects[i]->Get_X(),
+						m_objects[i]->Get_Y(),
+						0, // Z
+						m_objects[i]->Get_Size(),
+						1, 1, 1, 1, // R, G, B, A
+						m_BLUETEAM_buildingTexture,
+						m_objects[i]->Get_Level());
+
+					// 게이지 바
+					m_Renderer->DrawSolidRectGauge(
+						m_objects[i]->Get_X(),
+						m_objects[i]->Get_Y() + 60,
+						0, // Z
+						m_objects[i]->Get_Gauge_Width(),
+						m_objects[i]->Get_Gauge_Height(),
+						0, 0, 1, 1, // R, G, B, A
+						m_objects[i]->Get_Gauge(),
+						m_objects[i]->Get_Level()
+					);
+				}
+			}
+
+			else
+			{
+				m_Renderer->DrawSolidRect(
+					m_objects[i]->Get_X(),
+					m_objects[i]->Get_Y(),
+					m_objects[i]->Get_Z(),
+					m_objects[i]->Get_Size(),
+					m_objects[i]->Get_Color_R(),
+					m_objects[i]->Get_Color_G(),
+					m_objects[i]->Get_Color_B(),
+					m_objects[i]->Get_Color_A(),
+					m_objects[i]->Get_Level());
+			}
+
+			if (m_objects[i]->Get_Type() == OBJECT_CHARACTER)
+			{
+				if (m_objects[i]->Get_TeamType() == BLUE_TEAM)
+				{
+					// 게이지 바
+					m_Renderer->DrawSolidRectGauge(
+						m_objects[i]->Get_X(),
+						m_objects[i]->Get_Y() + 20,
+						0, // Z
+						m_objects[i]->Get_Gauge_Width(),
+						m_objects[i]->Get_Gauge_Height(),
+						0, 0, 1, 1, // R, G, B, A
+						m_objects[i]->Get_Gauge(),
+						m_objects[i]->Get_Level()
+					);
 				}
 				else
 				{
-					m_Renderer->DrawSolidRect(
-						m_objects[i]->Get_X(), 
-						m_objects[i]->Get_Y(), 
-						m_objects[i]->Get_Z(),
-						m_objects[i]->Get_Size(), 
-						m_objects[i]->Get_Color_R(),
-						m_objects[i]->Get_Color_G(), 
-						m_objects[i]->Get_Color_B(),
-						m_objects[i]->Get_Color_A());
+					// 게이지 바
+					m_Renderer->DrawSolidRectGauge(
+						m_objects[i]->Get_X(),
+						m_objects[i]->Get_Y() + 20,
+						0, // Z
+						m_objects[i]->Get_Gauge_Width(),
+						m_objects[i]->Get_Gauge_Height(),
+						1, 0, 0, 1, // R, G, B, A
+						m_objects[i]->Get_Gauge(),
+						m_objects[i]->Get_Level()
+					);
 				}
 			}
+		}
 	}
 
 }
@@ -228,12 +352,14 @@ void SceneMgr::DrawAllObject()
 bool SceneMgr::BoxColisionTest(Object* a, Object* b)
 {
 	if (a->Get_X() + a->Get_HalfSize() < b->Get_X() - b->Get_HalfSize()
-			|| a->Get_X() - a->Get_HalfSize() > b->Get_X() + b->Get_HalfSize()) {
+			|| a->Get_X() - a->Get_HalfSize() > b->Get_X() + b->Get_HalfSize()) 
+	{
 			return false;
 		}
 
 		if (a->Get_Y() + a->Get_HalfSize() < b->Get_Y() - b->Get_HalfSize()
-			|| a->Get_Y() - a->Get_HalfSize() > b->Get_Y() + b->Get_HalfSize()) {
+			|| a->Get_Y() - a->Get_HalfSize() > b->Get_Y() + b->Get_HalfSize())
+		{
 			return false;
 		}
 
