@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "Defines.h"
-
 #include "Dependencies\glew.h"
 #include "Dependencies\freeglut.h"
 #include "SceneMgr.h"
-
 
 SceneMgr *g_SceneMgr = NULL;
 
