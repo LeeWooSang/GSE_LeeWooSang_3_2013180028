@@ -14,7 +14,10 @@ Object::Object(float x, float y, int type , int teamType) :
 	m_parentID(-1),
 	m_lastBullet(0.f),
 	m_lastArrow(0.f),
-	m_teamType(teamType)
+	m_teamType(teamType),
+	m_animation_sheet1(0),
+	m_animation_sheet2(0)
+
 {
 	if (type == OBJECT_BUILDING)
 	{
@@ -60,15 +63,13 @@ Object::Object(float x, float y, int type , int teamType) :
 		m_fspeed = 300.f;
 		m_flevel = 0.2f;
 
-		m_fsize = 30;
+		m_fsize = 35;
 		m_life = 100;
 
 		m_lifeTime = 100000.f;
 
-
-
 		m_fgauge_width = m_fsize;
-		m_fgauge_height = m_fsize / 8.f;
+		m_fgauge_height = m_fsize / 10.f;
 		m_fgauge = 1.0;
 	}
 	else if (type == OBJECT_BULLET)
@@ -147,9 +148,12 @@ void Object::Update(float elapsedTime)
 	m_lastBullet += elapsedTimeInSecond;
 	m_lastArrow += elapsedTimeInSecond;
 
+	m_last_animation_sheet1 += elapsedTimeInSecond;
+	m_last_animation_sheet2 += elapsedTimeInSecond;
+
 	// 현재위치 = 이전위치 + 속도 * 시간
-		m_fx = m_fx + m_fspeed * m_vector[0] * elapsedTimeInSecond;
-		m_fy = m_fy + m_fspeed * m_vector[1] * elapsedTimeInSecond;
+	m_fx = m_fx + m_fspeed * m_vector[0] * elapsedTimeInSecond;
+	m_fy = m_fy + m_fspeed * m_vector[1] * elapsedTimeInSecond;
 	
 
 	if (m_fx > 250)

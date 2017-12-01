@@ -24,14 +24,31 @@ private:
 	Object *m_objects[MAX_OBJECTS_COUNT];
 
 	Renderer* m_Renderer;
-	int prevTime;
-	int currentTime;
+	DWORD prevTime;
+	DWORD currentTime;
 
 	float enemyCooltime = 0.f;
+	float BLUETEAM_Cooltime = 0.f;
+	float REDTEAM_Cooltime = 0.f;
 
+	float Particle_Cooltime = 0.f;
+
+	int BLUETEAM_sheet1_1 = 0;
+	int BLUETEAM_sheet1_2 = 0;
+
+	int REDTEAM_sheet2_1 = 0;
+	int REDTEAM_sheet2_2 = 0;
+	
 	int objectType;
 
+	GLuint m_Background_Texture = 0;
 	GLuint m_REDTEAM_buildingTexture = 0;
+	GLuint m_REDTEAM_characterTexture = 0;
+
 	GLuint m_BLUETEAM_buildingTexture = 0;
+	GLuint m_BLUETEAM_characterTexture = 0;
+
+	GLuint m_particleTexture = 0;
+
 };
 
