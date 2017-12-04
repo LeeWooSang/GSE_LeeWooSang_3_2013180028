@@ -16,10 +16,10 @@ SceneMgr::SceneMgr(int WindowWidth , int WindowHeight)
 
 	m_Background_Texture = m_Renderer->CreatePngTexture("./Textures/PNGs/background.png");
 
-	m_REDTEAM_buildingTexture = m_Renderer->CreatePngTexture("./Textures/PNGs/castle3.png");
+	m_REDTEAM_buildingTexture = m_Renderer->CreatePngTexture("./Textures/PNGs/RedKingTower.png");
 	m_REDTEAM_characterTexture = m_Renderer->CreatePngTexture("./Textures/PNGs/Red_animation.png");
 
-	m_BLUETEAM_buildingTexture = m_Renderer->CreatePngTexture("./Textures/PNGs/castle6.png");
+	m_BLUETEAM_buildingTexture = m_Renderer->CreatePngTexture("./Textures/PNGs/BlueKingTower.png");
 	m_BLUETEAM_characterTexture = m_Renderer->CreatePngTexture("./Textures/PNGs/Blue_animation.png");
 	
 	m_particleTexture = m_Renderer->CreatePngTexture("./Textures/PNGs/particle1.png");
@@ -430,6 +430,17 @@ void SceneMgr::DrawAllObject()
 
 			else if (m_objects[i]->Get_Type() == OBJECT_BULLET)
 			{
+				m_Renderer->DrawSolidRect(
+					m_objects[i]->Get_X(),
+					m_objects[i]->Get_Y(),
+					m_objects[i]->Get_Z(),
+					m_objects[i]->Get_Size(),
+					m_objects[i]->Get_Color_R(),
+					m_objects[i]->Get_Color_G(),
+					m_objects[i]->Get_Color_B(),
+					m_objects[i]->Get_Color_A(),
+					m_objects[i]->Get_Level());
+
 				if (m_objects[i]->Get_TeamType() == RED_TEAM)
 				{
 					/*
@@ -451,10 +462,12 @@ void SceneMgr::DrawAllObject()
 						m_objects[i]->Get_Y(),
 						m_objects[i]->Get_Z(),
 						m_objects[i]->Get_Size(),
-						m_objects[i]->Get_Color_R(),
+						1, 1, 1, 1,
+						/*
 						m_objects[i]->Get_Color_G(),
 						m_objects[i]->Get_Color_B(),
 						m_objects[i]->Get_Color_A(),
+						*/
 						0, 1,
 						m_particleTexture,
 						Particle_Cooltime);
@@ -468,10 +481,13 @@ void SceneMgr::DrawAllObject()
 						m_objects[i]->Get_Y(),
 						m_objects[i]->Get_Z(),
 						m_objects[i]->Get_Size(),
+						1, 1, 1, 1,
+						/*
 						m_objects[i]->Get_Color_R(),
 						m_objects[i]->Get_Color_G(),
 						m_objects[i]->Get_Color_B(),
 						m_objects[i]->Get_Color_A(),
+						*/
 						0, -1,
 						m_particleTexture,
 						Particle_Cooltime);

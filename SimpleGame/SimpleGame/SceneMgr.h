@@ -49,6 +49,5 @@ private:
 	GLuint m_BLUETEAM_characterTexture = 0;
 
 	GLuint m_particleTexture = 0;
-
 };
 

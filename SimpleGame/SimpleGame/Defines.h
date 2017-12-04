@@ -20,3 +20,6 @@ using namespace std;
 #define OBJECT_BUILDING 1
 #define OBJECT_BULLET 2
 #define OBJECT_ARROW 3
+
+#define OBJECT_KING 0
+#define OBJECT_PRIENCESS 1
