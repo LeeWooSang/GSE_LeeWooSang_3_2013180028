@@ -1,11 +1,11 @@
 #pragma once
 #include "Sound.h"
 
-class Object
+class CObject
 {
 public:
-	Object(float x, float y, int type, int teamType);
-	~Object();
+	CObject(float x, float y, int type, int teamType);
+	~CObject();
 
 public:
 	float Get_X()																			{ return m_fx; }

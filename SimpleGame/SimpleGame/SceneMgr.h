@@ -4,11 +4,11 @@
 #include "Renderer.h"
 #include "Sound.h"
 
-class SceneMgr
+class CSceneMgr
 {
 public:
-	SceneMgr(int WindowWidth , int WindowHeight);
-	~SceneMgr();
+	CSceneMgr(int WindowWidth , int WindowHeight);
+	~CSceneMgr();
 
 	int InitObject(float x, float y, int objectType, int teamType);
 	void DeleteObject(int index);
@@ -17,13 +17,13 @@ public:
 	void DrawAllObject();
 
 	int GetObjectCnt() { return MAX_OBJECTS_COUNT; }
-	bool BoxColisionTest(Object* a, Object* b);
+	bool BoxColisionTest(CObject* a, CObject* b);
 	void DoColisionTest();
 
 private:
-	Renderer* m_Renderer;
-	Object* m_objects[MAX_OBJECTS_COUNT];
-	Sound* m_sound;
+	Renderer* m_pRenderer;
+	CObject* m_pObjects[MAX_OBJECTS_COUNT];
+	Sound* m_pSound;
 
 	int m_Background_BGM = 0;
 	int m_BLUETEAM_CHARACTER_Init_BGM = 0;

@@ -4,7 +4,7 @@
 #include "Dependencies\freeglut.h"
 #include "SceneMgr.h"
 
-SceneMgr *g_SceneMgr = NULL;
+CSceneMgr* g_pSceneMgr = NULL;
 DWORD g_prevTime = 0;
 
 bool ButtonDown = false;
@@ -39,8 +39,8 @@ void RenderScene(void)
 		cout << " 마우스 쿨타임 : " << fixed << CoolTime << "초 남았습니다." << endl;
 	}
 
-	g_SceneMgr->UpdateAllObject(float(elapsedTime));
-	g_SceneMgr -> DrawAllObject();
+	g_pSceneMgr->UpdateAllObject(float(elapsedTime));
+	g_pSceneMgr -> DrawAllObject();
 
 	glutSwapBuffers();
 }
@@ -61,7 +61,7 @@ void MouseInput(int button, int state, int x, int y)
 		{
 			if (CoolTime <= 0.f && (Window_Half_HEIGHT)-y < 0.f)
 			{
-				g_SceneMgr->InitObject(x - (Window_Half_WIDTH), (Window_Half_HEIGHT)-y, OBJECT_CHARACTER, BLUE_TEAM);
+				g_pSceneMgr->InitObject(x - (Window_Half_WIDTH), (Window_Half_HEIGHT)-y, OBJECT_CHARACTER, BLUE_TEAM);
 				// 마우스 쿨타임 3초
 				CoolTime = 3.f;
 				MouseCool = false;
@@ -110,21 +110,22 @@ int main(int argc, char **argv)
 
 	//Initialize Renderer
 
-   g_SceneMgr = new SceneMgr(WIDTH, HEIGHT);
+   g_pSceneMgr = new CSceneMgr(WIDTH, HEIGHT);
 
-   g_SceneMgr->InitObject(0, 300, OBJECT_BUILDING, RED_TEAM);
-   g_SceneMgr->InitObject(-150, 300, OBJECT_BUILDING, RED_TEAM);
-   g_SceneMgr->InitObject(150, 300, OBJECT_BUILDING, RED_TEAM);
+   g_pSceneMgr->InitObject(0, 300, OBJECT_BUILDING, RED_TEAM);
+   g_pSceneMgr->InitObject(-150, 300, OBJECT_BUILDING, RED_TEAM);
+   g_pSceneMgr->InitObject(150, 300, OBJECT_BUILDING, RED_TEAM);
 
-   g_SceneMgr->InitObject(0, -300, OBJECT_BUILDING, BLUE_TEAM);
-   g_SceneMgr->InitObject(-150, -300, OBJECT_BUILDING, BLUE_TEAM);
-   g_SceneMgr->InitObject(150, -300, OBJECT_BUILDING, BLUE_TEAM);
+   g_pSceneMgr->InitObject(0, -300, OBJECT_BUILDING, BLUE_TEAM);
+   g_pSceneMgr->InitObject(-150, -300, OBJECT_BUILDING, BLUE_TEAM);
+   g_pSceneMgr->InitObject(150, -300, OBJECT_BUILDING, BLUE_TEAM);
 
 	g_prevTime = timeGetTime();
 
 	glutMainLoop();
 
-	delete g_SceneMgr;
+	delete g_pSceneMgr;
+	g_pSceneMgr = NULL;
 
     return 0;
 }

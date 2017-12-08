@@ -4,7 +4,7 @@
 #include "SceneMgr.h"
 #include <math.h>
 
-Object::Object(float x, float y, int type , int teamType) :
+CObject::CObject(float x, float y, int type , int teamType) :
 	m_fx(x),
 	m_fy(y),
 	m_fz(0),
@@ -138,12 +138,12 @@ Object::Object(float x, float y, int type , int teamType) :
 }
 
 
-Object::~Object()
+CObject::~CObject()
 {
 }
 
 
-void Object::Update(float elapsedTime)
+void CObject::Update(float elapsedTime)
 {
 
 	float elapsedTimeInSecond = elapsedTime * 0.001f ;
