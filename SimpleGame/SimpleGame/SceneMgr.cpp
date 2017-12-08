@@ -9,6 +9,7 @@ SceneMgr::SceneMgr(int WindowWidth , int WindowHeight)
 	{
 		std::cout << "SceneMgr::Render could not be initailized.\n";
 	}
+
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
 		m_objects[i] = NULL;
@@ -23,11 +24,19 @@ SceneMgr::SceneMgr(int WindowWidth , int WindowHeight)
 	m_BLUETEAM_characterTexture = m_Renderer->CreatePngTexture("./Textures/PNGs/Blue_animation.png");
 	
 	m_particleTexture = m_Renderer->CreatePngTexture("./Textures/PNGs/particle1.png");
+
+	m_sound = new Sound();
+	soundBG = m_sound->CreateSound("./Sounds/MapleStory_Login_old.mp3");
+	m_sound->PlaySoundA(soundBG, true, 0.5f);
 }
 
 SceneMgr::~SceneMgr()
 {
+	delete m_sound;
+	m_sound = NULL;
+
 	delete m_Renderer;
+	m_Renderer = NULL;
 }
 
 int SceneMgr::InitObject(float x, float y, int objectType, int teamType)
@@ -45,6 +54,7 @@ int SceneMgr::InitObject(float x, float y, int objectType, int teamType)
 
 void SceneMgr::UpdateAllObject(float elapsedTime)
 {
+
 	DoColisionTest();
 
 	enemyCooltime += elapsedTime * 0.001f;
@@ -309,6 +319,7 @@ void SceneMgr::DrawAllObject()
 {
 	// 배경 이미지 추가
 	m_Renderer->DrawTexturedRect(0, 0, 0, 800, 1, 1, 1, 1, m_Background_Texture, 0.99);
+	m_Renderer->DrawText(0, 200, GLUT_BITMAP_TIMES_ROMAN_24, 1, 1, 0, "Clash Royale");
 
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{

@@ -2,6 +2,7 @@
 #include "Defines.h"
 #include "Object.h"
 #include "Renderer.h"
+#include "Sound.h"
 
 class SceneMgr
 {
@@ -17,13 +18,15 @@ public:
 	void DrawAllObject();
 
 	int GetObjectCnt() { return MAX_OBJECTS_COUNT; }
-	 bool BoxColisionTest(Object* a, Object* b);
-	 void DoColisionTest();
+	bool BoxColisionTest(Object* a, Object* b);
+	void DoColisionTest();
 
 private:
-	Object *m_objects[MAX_OBJECTS_COUNT];
-
+	Object* m_objects[MAX_OBJECTS_COUNT];
 	Renderer* m_Renderer;
+	Sound* m_sound;
+	int soundBG;
+
 	DWORD prevTime;
 	DWORD currentTime;
 
@@ -44,7 +47,6 @@ private:
 	GLuint m_Background_Texture = 0;
 	GLuint m_REDTEAM_buildingTexture = 0;
 	GLuint m_REDTEAM_characterTexture = 0;
-
 	GLuint m_BLUETEAM_buildingTexture = 0;
 	GLuint m_BLUETEAM_characterTexture = 0;
 

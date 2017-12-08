@@ -1,93 +1,102 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Object">
-      <UniqueIdentifier>{46d052ec-9bca-4b93-9c37-976f45f74c45}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SceneMgr">
-      <UniqueIdentifier>{aaced092-a0e9-477c-8bb8-f2ced42d0cd3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shaders">
+    <Filter Include="소스 파일\Shaders">
       <UniqueIdentifier>{aa86e47f-445f-4440-9a76-173363b46c4e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Textures">
-      <UniqueIdentifier>{85463314-c4db-45e2-ae33-94fa57978c69}</UniqueIdentifier>
+    <Filter Include="소스 파일\SceneMgr">
+      <UniqueIdentifier>{8eeb9cac-7011-464c-a263-aeb4c85f472d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderer">
-      <UniqueIdentifier>{f601a5a4-08b3-488f-94ea-4956b721e9ea}</UniqueIdentifier>
+    <Filter Include="소스 파일\Object">
+      <UniqueIdentifier>{b3575577-d22b-4e48-881c-e920af9c3955}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame">
-      <UniqueIdentifier>{e021cd27-eec3-480a-87e7-9563fd041dd0}</UniqueIdentifier>
+    <Filter Include="소스 파일\Sound">
+      <UniqueIdentifier>{95cd1114-2989-4032-b7e3-29af7c27b545}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Renderer">
+      <UniqueIdentifier>{89267606-4707-45e5-b6a8-89989c7ee094}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\LoadPng">
+      <UniqueIdentifier>{1cf12876-1d11-4bf3-9055-2661f7f5b2ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Header">
+      <UniqueIdentifier>{4b39e6c8-f693-4043-b421-cb1e542019ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadPng.h">
-      <Filter>Textures</Filter>
+    <ClInclude Include="Sound.h">
+      <Filter>소스 파일\Sound</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
-      <Filter>Object</Filter>
+      <Filter>소스 파일\Object</Filter>
     </ClInclude>
     <ClInclude Include="SceneMgr.h">
-      <Filter>SceneMgr</Filter>
+      <Filter>소스 파일\SceneMgr</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>Renderer</Filter>
+      <Filter>소스 파일\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadPng.h">
+      <Filter>소스 파일\LoadPng</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>소스 파일\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>소스 파일\Header</Filter>
     </ClInclude>
     <ClInclude Include="Defines.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LoadPng.cpp">
-      <Filter>Textures</Filter>
+    <ClCompile Include="SimpleGame.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>소스 파일\Sound</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
-      <Filter>Object</Filter>
+      <Filter>소스 파일\Object</Filter>
     </ClCompile>
     <ClCompile Include="SceneMgr.cpp">
-      <Filter>SceneMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="SimpleGame.cpp">
-      <Filter>MainGame</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\SceneMgr</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>Renderer</Filter>
+      <Filter>소스 파일\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadPng.cpp">
+      <Filter>소스 파일\LoadPng</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일\Header</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\SolidRectWithTexture.fs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\SolidRectWithTexture.vs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\SolidRectWithTextureSeq.fs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Shaders\SolidRectWithTextureSeq.vs">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Shaders\SolidRect.fs">
-      <Filter>Shaders</Filter>
+      <Filter>소스 파일\Shaders</Filter>
     </None>
     <None Include="Shaders\SolidRect.vs">
-      <Filter>Shaders</Filter>
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
+    <None Include="Shaders\SolidRectWithTexture.fs">
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
+    <None Include="Shaders\SolidRectWithTexture.vs">
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
+    <None Include="Shaders\SolidRectWithTextureSeq.fs">
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
+    <None Include="Shaders\SolidRectWithTextureSeq.vs">
+      <Filter>소스 파일\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

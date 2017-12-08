@@ -94,7 +94,7 @@ Object::Object(float x, float y, int type , int teamType) :
 		m_fspeed = 600.f;
 		m_flevel = 0.3f;
 
-		m_fsize = 10;
+		m_fsize = 7;
 		m_life = 20;
 
 		m_lifeTime = 100000.f;
@@ -122,7 +122,7 @@ Object::Object(float x, float y, int type , int teamType) :
 		m_fspeed = 100.f;
 		m_flevel = 0.3f;
 
-		m_fsize = 4;
+		m_fsize = 5;
 		m_life = 20;
 
 		m_lifeTime = 100000.f;

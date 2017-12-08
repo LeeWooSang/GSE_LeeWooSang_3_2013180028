@@ -63,8 +63,8 @@ void MouseInput(int button, int state, int x, int y)
 			if (CoolTime <= 0.f && (Window_Half_HEIGHT)-y < 0.f)
 			{
 				g_SceneMgr->InitObject(x - (Window_Half_WIDTH), (Window_Half_HEIGHT)-y, OBJECT_CHARACTER, BLUE_TEAM);
-				// 마우스 쿨타임 1.5초
-				CoolTime = 1.5f;
+				// 마우스 쿨타임 3초
+				CoolTime = 3.f;
 				MouseCool = false;
 			}
 		}
