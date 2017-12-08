@@ -17,8 +17,8 @@ Object::Object(float x, float y, int type , int teamType) :
 	m_teamType(teamType),
 	m_animation_sheet1(0),
 	m_animation_sheet2(0)
-
 {
+
 	if (type == OBJECT_BUILDING)
 	{
 		m_color[0] = 1;
@@ -41,6 +41,7 @@ Object::Object(float x, float y, int type , int teamType) :
 		m_fgauge_height = m_fsize / 10.f;
 		m_fgauge = 1.0;
 	}
+
 	else if (type == OBJECT_CHARACTER)
 	{
 		if (teamType == RED_TEAM)
@@ -50,6 +51,7 @@ Object::Object(float x, float y, int type , int teamType) :
 			m_color[2] = 0;
 			m_color[3] = 1;
 		}
+
 		else if (teamType == BLUE_TEAM)
 		{
 			m_color[0] = 0;
@@ -57,6 +59,7 @@ Object::Object(float x, float y, int type , int teamType) :
 			m_color[2] = 1;
 			m_color[3] = 1;
 		}
+
 		m_vector[0] = (((float)std::rand() / (float)RAND_MAX - 0.5f));
 		m_vector[1] = (((float)std::rand() / (float)RAND_MAX - 0.5f));
 

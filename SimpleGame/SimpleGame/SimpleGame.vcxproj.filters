@@ -1,29 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{bee0ce86-2a16-4f84-a7d3-e891111267de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="리소스 파일\Shaders">
+      <UniqueIdentifier>{aa86e47f-445f-4440-9a76-173363b46c4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimpleGame">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="소스 파일\Shaders">
-      <UniqueIdentifier>{aa86e47f-445f-4440-9a76-173363b46c4e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\SceneMgr">
+    <Filter Include="SimpleGame\SceneMgr">
       <UniqueIdentifier>{8eeb9cac-7011-464c-a263-aeb4c85f472d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Object">
+    <Filter Include="SimpleGame\Object">
       <UniqueIdentifier>{b3575577-d22b-4e48-881c-e920af9c3955}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Sound">
+    <Filter Include="SimpleGame\Sound">
       <UniqueIdentifier>{95cd1114-2989-4032-b7e3-29af7c27b545}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Renderer">
+    <Filter Include="SimpleGame\Renderer">
       <UniqueIdentifier>{89267606-4707-45e5-b6a8-89989c7ee094}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\LoadPng">
+    <Filter Include="SimpleGame\LoadPng">
       <UniqueIdentifier>{1cf12876-1d11-4bf3-9055-2661f7f5b2ec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Header">
+    <Filter Include="SimpleGame\Header">
       <UniqueIdentifier>{4b39e6c8-f693-4043-b421-cb1e542019ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -32,71 +35,71 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sound.h">
-      <Filter>소스 파일\Sound</Filter>
+      <Filter>SimpleGame\Sound</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
-      <Filter>소스 파일\Object</Filter>
+      <Filter>SimpleGame\Object</Filter>
     </ClInclude>
     <ClInclude Include="SceneMgr.h">
-      <Filter>소스 파일\SceneMgr</Filter>
+      <Filter>SimpleGame\SceneMgr</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>소스 파일\Renderer</Filter>
+      <Filter>SimpleGame\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="LoadPng.h">
-      <Filter>소스 파일\LoadPng</Filter>
+      <Filter>SimpleGame\LoadPng</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
-      <Filter>소스 파일\Header</Filter>
+      <Filter>SimpleGame\Header</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>소스 파일\Header</Filter>
+      <Filter>SimpleGame\Header</Filter>
     </ClInclude>
     <ClInclude Include="Defines.h">
-      <Filter>소스 파일\Header</Filter>
+      <Filter>SimpleGame\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleGame.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>SimpleGame</Filter>
     </ClCompile>
     <ClCompile Include="Sound.cpp">
-      <Filter>소스 파일\Sound</Filter>
+      <Filter>SimpleGame\Sound</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
-      <Filter>소스 파일\Object</Filter>
+      <Filter>SimpleGame\Object</Filter>
     </ClCompile>
     <ClCompile Include="SceneMgr.cpp">
-      <Filter>소스 파일\SceneMgr</Filter>
+      <Filter>SimpleGame\SceneMgr</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>소스 파일\Renderer</Filter>
+      <Filter>SimpleGame\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="LoadPng.cpp">
-      <Filter>소스 파일\LoadPng</Filter>
+      <Filter>SimpleGame\LoadPng</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일\Header</Filter>
+      <Filter>SimpleGame\Header</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\SolidRect.fs">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>리소스 파일\Shaders</Filter>
     </None>
     <None Include="Shaders\SolidRect.vs">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>리소스 파일\Shaders</Filter>
     </None>
     <None Include="Shaders\SolidRectWithTexture.fs">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>리소스 파일\Shaders</Filter>
     </None>
     <None Include="Shaders\SolidRectWithTexture.vs">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>리소스 파일\Shaders</Filter>
     </None>
     <None Include="Shaders\SolidRectWithTextureSeq.fs">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>리소스 파일\Shaders</Filter>
     </None>
     <None Include="Shaders\SolidRectWithTextureSeq.vs">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>리소스 파일\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

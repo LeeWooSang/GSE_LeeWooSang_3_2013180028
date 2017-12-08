@@ -14,7 +14,6 @@ SceneMgr::SceneMgr(int WindowWidth , int WindowHeight)
 	{
 		m_objects[i] = NULL;
 	}
-
 	m_Background_Texture = m_Renderer->CreatePngTexture("./Textures/PNGs/background.png");
 
 	m_REDTEAM_buildingTexture = m_Renderer->CreatePngTexture("./Textures/PNGs/RedKingTower.png");
@@ -22,16 +21,24 @@ SceneMgr::SceneMgr(int WindowWidth , int WindowHeight)
 
 	m_BLUETEAM_buildingTexture = m_Renderer->CreatePngTexture("./Textures/PNGs/BlueKingTower.png");
 	m_BLUETEAM_characterTexture = m_Renderer->CreatePngTexture("./Textures/PNGs/Blue_animation.png");
-	
+
 	m_particleTexture = m_Renderer->CreatePngTexture("./Textures/PNGs/particle1.png");
 
 	m_sound = new Sound();
-	soundBG = m_sound->CreateSound("./Sounds/MapleStory_Login_old.mp3");
-	m_sound->PlaySoundA(soundBG, true, 0.5f);
+
+	m_Background_BGM = m_sound->CreateSound("./Sounds/MapleStory_Login_old.mp3");
+	m_BLUETEAM_CHARACTER_Init_BGM = m_sound->CreateSound("./Sounds/Init_Effect_Sound.mp3");
+	m_BLUETEAM_CHARACTER_Attack_BGM = m_sound->CreateSound("./Sounds/Attack_Effect_Sound.mp3");
+
+	m_sound->PlaySoundA(m_Background_BGM, true, 0.5f);
 }
 
 SceneMgr::~SceneMgr()
 {
+	m_sound->DeleteSound(m_Background_BGM);
+	m_sound->DeleteSound(m_BLUETEAM_CHARACTER_Init_BGM);
+	m_sound->DeleteSound(m_BLUETEAM_CHARACTER_Attack_BGM);
+
 	delete m_sound;
 	m_sound = NULL;
 
@@ -46,6 +53,10 @@ int SceneMgr::InitObject(float x, float y, int objectType, int teamType)
 		if (m_objects[i] == NULL)
 		{
 			m_objects[i] = new Object(x, y, objectType, teamType);
+
+			if (m_objects[i]->Get_Type() == OBJECT_CHARACTER && m_objects[i]->Get_TeamType() == BLUE_TEAM)
+				m_sound->PlaySoundA(m_BLUETEAM_CHARACTER_Init_BGM, false, 0.2);
+
 			return i;
 		}
 	}
@@ -54,7 +65,6 @@ int SceneMgr::InitObject(float x, float y, int objectType, int teamType)
 
 void SceneMgr::UpdateAllObject(float elapsedTime)
 {
-
 	DoColisionTest();
 
 	enemyCooltime += elapsedTime * 0.001f;
@@ -144,11 +154,15 @@ void SceneMgr::UpdateAllObject(float elapsedTime)
 					if (m_objects[i]->Get_LastArrow() > 3.f)
 					{
 						int arrowID = InitObject(m_objects[i]->Get_X(), m_objects[i]->Get_Y(), OBJECT_ARROW, m_objects[i]->Get_TeamType());
+
 						m_objects[i]->Set_LastArrow(0.f);
 						if (arrowID >= 0)
 						{
 							m_objects[arrowID]->Set_ParentID(i);
 						}
+
+						if(m_objects[i]->Get_TeamType() == BLUE_TEAM)
+							m_sound->PlaySoundA(m_BLUETEAM_CHARACTER_Attack_BGM, false, 0.3);
 					}
 				}
 			}
@@ -319,7 +333,13 @@ void SceneMgr::DrawAllObject()
 {
 	// 배경 이미지 추가
 	m_Renderer->DrawTexturedRect(0, 0, 0, 800, 1, 1, 1, 1, m_Background_Texture, 0.99);
-	m_Renderer->DrawText(0, 200, GLUT_BITMAP_TIMES_ROMAN_24, 1, 1, 0, "Clash Royale");
+
+	m_Renderer->DrawText(-200, 100, GLUT_BITMAP_9_BY_15, 0, 0, 1, "RED TEAM");
+	m_Renderer->DrawText(-200, -100, GLUT_BITMAP_9_BY_15, 1, 1, 0, "BLUE TEAM");
+
+	m_Renderer->DrawText(-120, 30, GLUT_BITMAP_HELVETICA_18, 1, 1, 1, "SimpleGame");
+	m_Renderer->DrawText(-10, 30, GLUT_BITMAP_HELVETICA_18, 0, 0, 0, "of");
+	m_Renderer->DrawText(14, 30, GLUT_BITMAP_HELVETICA_18, 1, 0, 0, "LeeWooSang");
 
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
@@ -392,7 +412,6 @@ void SceneMgr::DrawAllObject()
 						m_REDTEAM_characterTexture,
 						REDTEAM_sheet2_1,
 						REDTEAM_sheet2_2,
-						//m_objects[i]->Get_Animation_Sheet2(), 
 						3, 2,
 						m_objects[i]->Get_Level());
 
@@ -422,7 +441,6 @@ void SceneMgr::DrawAllObject()
 						m_BLUETEAM_characterTexture,
 						BLUETEAM_sheet1_1,
 						BLUETEAM_sheet1_2,
-						//m_objects[i]->Get_Animation_Sheet2(), 
 						5, 2,
 						m_objects[i]->Get_Level());
 
@@ -454,35 +472,15 @@ void SceneMgr::DrawAllObject()
 
 				if (m_objects[i]->Get_TeamType() == RED_TEAM)
 				{
-					/*
-					m_Renderer->DrawTexturedRect(
-						m_objects[i]->Get_X(),
-						m_objects[i]->Get_Y(),
-						m_objects[i]->Get_Z(),
-						m_objects[i]->Get_Size(),
-						m_objects[i]->Get_Color_R(),
-						m_objects[i]->Get_Color_G(),
-						m_objects[i]->Get_Color_B(),
-						m_objects[i]->Get_Color_A(),
-						m_BLUETEAM_bulletTexture,
-						m_objects[i]->Get_Level());
-					*/
-
 					m_Renderer->DrawParticle(
 						m_objects[i]->Get_X(),
 						m_objects[i]->Get_Y(),
 						m_objects[i]->Get_Z(),
 						m_objects[i]->Get_Size(),
 						1, 1, 1, 1,
-						/*
-						m_objects[i]->Get_Color_G(),
-						m_objects[i]->Get_Color_B(),
-						m_objects[i]->Get_Color_A(),
-						*/
 						0, 1,
 						m_particleTexture,
-						Particle_Cooltime);
-						
+						Particle_Cooltime);						
 				}
 
 				else if (m_objects[i]->Get_TeamType() == BLUE_TEAM)
@@ -493,12 +491,6 @@ void SceneMgr::DrawAllObject()
 						m_objects[i]->Get_Z(),
 						m_objects[i]->Get_Size(),
 						1, 1, 1, 1,
-						/*
-						m_objects[i]->Get_Color_R(),
-						m_objects[i]->Get_Color_G(),
-						m_objects[i]->Get_Color_B(),
-						m_objects[i]->Get_Color_A(),
-						*/
 						0, -1,
 						m_particleTexture,
 						Particle_Cooltime);
@@ -521,150 +513,6 @@ void SceneMgr::DrawAllObject()
 			}
 		}
 	}
-	/*
-	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
-	{
-		if (m_objects[i] != NULL)
-		{
-			if (m_objects[i]->Get_Type() == OBJECT_BUILDING)
-			{
-				if (m_objects[i]->Get_TeamType() == RED_TEAM)
-				{
-					m_Renderer->DrawTexturedRect(
-						m_objects[i]->Get_X(),
-						m_objects[i]->Get_Y(),
-						0, // Z
-						m_objects[i]->Get_Size(),
-						1, 1, 1, 1, // R, G, B, A
-						m_REDTEAM_buildingTexture,
-						m_objects[i]->Get_Level());
-
-					// 게이지 바
-					m_Renderer->DrawSolidRectGauge(
-						m_objects[i]->Get_X(),
-						m_objects[i]->Get_Y() + 60,
-						0, // Z
-						m_objects[i]->Get_Gauge_Width(),
-						m_objects[i]->Get_Gauge_Height(),
-						1, 0, 0, 1, // R, G, B, A
-						m_objects[i]->Get_Gauge(),
-						m_objects[i]->Get_Level()
-					);
-				}
-				else if (m_objects[i]->Get_TeamType() == BLUE_TEAM)
-				{
-					m_Renderer->DrawTexturedRect(
-						m_objects[i]->Get_X(),
-						m_objects[i]->Get_Y(),
-						0, // Z
-						m_objects[i]->Get_Size(),
-						1, 1, 1, 1, // R, G, B, A
-						m_BLUETEAM_buildingTexture,
-						m_objects[i]->Get_Level());
-
-					// 게이지 바
-					m_Renderer->DrawSolidRectGauge(
-						m_objects[i]->Get_X(),
-						m_objects[i]->Get_Y() + 60,
-						0, // Z
-						m_objects[i]->Get_Gauge_Width(),
-						m_objects[i]->Get_Gauge_Height(),
-						0, 0, 1, 1, // R, G, B, A
-						m_objects[i]->Get_Gauge(),
-						m_objects[i]->Get_Level()
-					);
-				}
-			}
-
-			else
-			{
-				if (m_objects[i]->Get_Type() == OBJECT_CHARACTER && m_objects[i]->Get_TeamType() == BLUE_TEAM)
-				{
-					m_Renderer->DrawTexturedRectSeq(
-						m_objects[i]->Get_X(),
-						m_objects[i]->Get_Y(),
-						m_objects[i]->Get_Z(),
-						m_objects[i]->Get_Size(),
-						m_objects[i]->Get_Color_R(),
-						m_objects[i]->Get_Color_G(),
-						m_objects[i]->Get_Color_B(),
-						m_objects[i]->Get_Color_A(),
-						m_BLUETEAM_characterTexture,
-						BLUETEAM_sheet1_1,
-						BLUETEAM_sheet1_2,
-						//m_objects[i]->Get_Animation_Sheet2(), 
-						5, 2,
-						m_objects[i]->Get_Level());
-				}
-				else if (m_objects[i]->Get_Type() == OBJECT_CHARACTER && m_objects[i]->Get_TeamType() == RED_TEAM)
-				{
-					m_Renderer->DrawTexturedRectSeq(
-						m_objects[i]->Get_X(),
-						m_objects[i]->Get_Y(),
-						m_objects[i]->Get_Z(),
-						m_objects[i]->Get_Size(),
-						m_objects[i]->Get_Color_R(),
-						m_objects[i]->Get_Color_G(),
-						m_objects[i]->Get_Color_B(),
-						m_objects[i]->Get_Color_A(),
-						m_REDTEAM_characterTexture,
-						REDTEAM_sheet2_1,
-						REDTEAM_sheet2_2,
-						//m_objects[i]->Get_Animation_Sheet2(), 
-						3, 2,
-						m_objects[i]->Get_Level());
-				}
-
-				else
-				{
-					m_Renderer->DrawSolidRect(
-						m_objects[i]->Get_X(),
-						m_objects[i]->Get_Y(),
-						m_objects[i]->Get_Z(),
-						m_objects[i]->Get_Size(),
-						m_objects[i]->Get_Color_R(),
-						m_objects[i]->Get_Color_G(),
-						m_objects[i]->Get_Color_B(),
-						m_objects[i]->Get_Color_A(),
-						m_objects[i]->Get_Level());
-				}
-
-			}
-
-			if (m_objects[i]->Get_Type() == OBJECT_CHARACTER)
-			{
-				if (m_objects[i]->Get_TeamType() == BLUE_TEAM)
-				{
-					// 게이지 바
-					m_Renderer->DrawSolidRectGauge(
-						m_objects[i]->Get_X(),
-						m_objects[i]->Get_Y() + 20,
-						0, // Z
-						m_objects[i]->Get_Gauge_Width(),
-						m_objects[i]->Get_Gauge_Height(),
-						0, 0, 1, 1, // R, G, B, A
-						m_objects[i]->Get_Gauge(),
-						m_objects[i]->Get_Level()
-					);
-				}
-				else
-				{
-					// 게이지 바
-					m_Renderer->DrawSolidRectGauge(
-						m_objects[i]->Get_X(),
-						m_objects[i]->Get_Y() + 20,
-						0, // Z
-						m_objects[i]->Get_Gauge_Width(),
-						m_objects[i]->Get_Gauge_Height(),
-						1, 0, 0, 1, // R, G, B, A
-						m_objects[i]->Get_Gauge(),
-						m_objects[i]->Get_Level()
-					);
-				}
-			}
-		}
-	}
-	*/
 }
 
 bool SceneMgr::BoxColisionTest(Object* a, Object* b)

@@ -1,4 +1,5 @@
 #pragma once
+#include "Sound.h"
 
 class Object
 {
@@ -120,6 +121,5 @@ private:
 
 	float m_last_animation_sheet1;
 	float m_last_animation_sheet2;
-
 };
 

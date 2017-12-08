@@ -5,7 +5,6 @@
 #include "SceneMgr.h"
 
 SceneMgr *g_SceneMgr = NULL;
-
 DWORD g_prevTime = 0;
 
 bool ButtonDown = false;

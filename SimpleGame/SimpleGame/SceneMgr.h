@@ -6,7 +6,6 @@
 
 class SceneMgr
 {
-
 public:
 	SceneMgr(int WindowWidth , int WindowHeight);
 	~SceneMgr();
@@ -22,10 +21,13 @@ public:
 	void DoColisionTest();
 
 private:
-	Object* m_objects[MAX_OBJECTS_COUNT];
 	Renderer* m_Renderer;
+	Object* m_objects[MAX_OBJECTS_COUNT];
 	Sound* m_sound;
-	int soundBG;
+
+	int m_Background_BGM = 0;
+	int m_BLUETEAM_CHARACTER_Init_BGM = 0;
+	int m_BLUETEAM_CHARACTER_Attack_BGM = 0;
 
 	DWORD prevTime;
 	DWORD currentTime;
