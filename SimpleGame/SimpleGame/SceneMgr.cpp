@@ -26,7 +26,7 @@ CSceneMgr::CSceneMgr(int WindowWidth , int WindowHeight)
 
 	m_pSound = new Sound();
 
-	m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory_Login_old.mp3");
+	m_Background_BGM = m_pSound->CreateSound("./Sounds/Reminiscence.mp3");
 	m_BLUETEAM_CHARACTER_Init_BGM = m_pSound->CreateSound("./Sounds/Init_Effect_Sound.mp3");
 	m_BLUETEAM_CHARACTER_Attack_BGM = m_pSound->CreateSound("./Sounds/Attack_Effect_Sound.mp3");
 
