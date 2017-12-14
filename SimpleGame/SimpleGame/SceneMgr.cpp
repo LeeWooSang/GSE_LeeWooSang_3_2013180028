@@ -26,11 +26,25 @@ CSceneMgr::CSceneMgr(int WindowWidth , int WindowHeight)
 
 	m_pSound = new Sound();
 
-	m_Background_BGM = m_pSound->CreateSound("./Sounds/Reminiscence.mp3");
-	m_BLUETEAM_CHARACTER_Init_BGM = m_pSound->CreateSound("./Sounds/Init_Effect_Sound.mp3");
-	m_BLUETEAM_CHARACTER_Attack_BGM = m_pSound->CreateSound("./Sounds/Attack_Effect_Sound.mp3");
+	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/AboveTheTreetops/AboveTheTreetops.mp3");						// 리스항구
+	m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/FloralLife/FloralLife.mp3");												// 헤네시스
+	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/WhenTheMorningComes/WhenTheMorningComes.mp3");	// 엘리니아
+	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/Nightmare/Nightmare.mp3");											// 페리온
+	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/BadGuys/BadGuys.mp3");												// 커닝시티
+	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/ShininHarbor/ShininHarbor.mp3");									// 오르비스
+	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/SnowyVillage/SnowyVillage.mp3");									// 엘나스
+	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/Aquarium/Aquarium.mp3");												// 아쿠아리움
+	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/FantasticThinking/FantasticThinking.mp3");						// 루디부리엄
+	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/LetsMarch/LetsMarch.mp3");											// 지구방위본부
+	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/MuruengHill/MuruengHill.mp3");										// 무릉
+	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/Leafre/Leafre.mp3");														// 리프레
+	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/DragonNest/DragonNest.mp3");										// 용의 둥지
+	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/Blackheaven/PromiseOfHeaven.mp3");								// 블랙헤븐 ost
+	//m_Background_BGM = m_pSound->CreateSound("./Sounds/Reminiscence.mp3");																		// 테일즈위버 ost
+	m_BLUETEAM_CHARACTER_Init_BGM = m_pSound->CreateSound("./Sounds/Init_Effect_Sound.mp3");												// 블루팀 유닛 생성
+	m_BLUETEAM_CHARACTER_Attack_BGM = m_pSound->CreateSound("./Sounds/Attack_Effect_Sound.mp3");										// 블루팀 유닛 공격
 
-	m_pSound->PlaySoundA(m_Background_BGM, true, 0.5f);
+	m_pSound->PlaySoundA(m_Background_BGM, true, 0.4f);
 }
 
 CSceneMgr::~CSceneMgr()
@@ -162,7 +176,7 @@ void CSceneMgr::UpdateAllObject(float elapsedTime)
 						}
 
 						if(m_pObjects[i]->Get_TeamType() == BLUE_TEAM)
-							m_pSound->PlaySoundA(m_BLUETEAM_CHARACTER_Attack_BGM, false, 0.3);
+							m_pSound->PlaySoundA(m_BLUETEAM_CHARACTER_Attack_BGM, false, 0.1);
 					}
 				}
 			}
