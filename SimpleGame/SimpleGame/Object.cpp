@@ -64,7 +64,7 @@ CObject::CObject(float x, float y, int type , int teamType) :
 		m_fspeed = 300.f;
 		m_flevel = 0.2f;
 
-		m_fsize = 35;
+		m_fsize = 37;
 		m_life = 100;
 
 		m_lifeTime = 100000.f;
@@ -95,7 +95,7 @@ CObject::CObject(float x, float y, int type , int teamType) :
 		m_fspeed = 600.f;
 		m_flevel = 0.3f;
 
-		m_fsize = 7;
+		m_fsize = 10;
 		m_life = 20;
 
 		m_lifeTime = 100000.f;

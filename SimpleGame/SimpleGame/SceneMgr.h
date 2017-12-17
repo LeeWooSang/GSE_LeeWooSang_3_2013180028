@@ -33,7 +33,9 @@ private:
 	DWORD currentTime;
 
 	float enemyCooltime = 0.f;
+
 	float BLUETEAM_Cooltime = 0.f;
+
 	float REDTEAM_Cooltime = 0.f;
 
 	float Particle_Cooltime = 0.f;

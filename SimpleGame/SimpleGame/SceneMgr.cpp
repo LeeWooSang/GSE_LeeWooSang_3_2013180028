@@ -45,10 +45,10 @@ CSceneMgr::CSceneMgr(int WindowWidth , int WindowHeight)
 	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/DragonNest/DragonNest.mp3");										// ¿ëÀÇ µÕÁö
 	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/Blackheaven/PromiseOfHeaven.mp3");								// ºí·¢Çìºì ost
 	//m_Background_BGM = m_pSound->CreateSound("./Sounds/Reminiscence.mp3");																		// Å×ÀÏÁîÀ§¹ö ost
-	m_BLUETEAM_CHARACTER_Init_BGM = m_pSound->CreateSound("./Sounds/Init_Effect_Sound.mp3");												// ºí·çÆÀ À¯´Ö »ý¼º
+	m_BLUETEAM_CHARACTER_Init_BGM = m_pSound->CreateSound("./Sounds/Effect/Init.wav");															// ºí·çÆÀ À¯´Ö »ý¼º
 	m_BLUETEAM_CHARACTER_Attack_BGM = m_pSound->CreateSound("./Sounds/Attack_Effect_Sound.mp3");										// ºí·çÆÀ À¯´Ö °ø°Ý
 
-	m_pSound->PlaySoundA(m_Background_BGM, true, 0.4f);
+	m_pSound->PlaySoundA(m_Background_BGM, true, 0.3f);
 }
 
 CSceneMgr::~CSceneMgr()
@@ -87,7 +87,9 @@ void CSceneMgr::UpdateAllObject(float elapsedTime)
 
 	enemyCooltime += elapsedTime * 0.001f;
 	BLUETEAM_Cooltime += elapsedTime * 0.001f;
+
 	REDTEAM_Cooltime += elapsedTime * 0.001f;
+
 	Particle_Cooltime += elapsedTime * 0.001f;
 	Background_Particle_Cooltime += elapsedTime * 0.0005;
 
@@ -108,7 +110,7 @@ void CSceneMgr::UpdateAllObject(float elapsedTime)
 		}
 
 		else
-		{			
+		{
 			if (BLUETEAM_sheet1_1 == 6 && BLUETEAM_sheet1_2 == 1)
 				BLUETEAM_sheet1_2 = 0;
 
@@ -457,6 +459,7 @@ void CSceneMgr::DrawAllObject()
 			{
 				if (m_pObjects[i]->Get_TeamType() == RED_TEAM)
 				{
+					
 					 m_pRenderer->DrawTexturedRectSeq(
 						m_pObjects[i]->Get_X(),
 						m_pObjects[i]->Get_Y(),
@@ -471,7 +474,8 @@ void CSceneMgr::DrawAllObject()
 						REDTEAM_sheet2_2,
 						3, 2,
 						m_pObjects[i]->Get_Level());
-
+						
+			
 					// °ÔÀÌÁö ¹Ù
 					 m_pRenderer->DrawSolidRectGauge(
 						m_pObjects[i]->Get_X(),
@@ -516,7 +520,7 @@ void CSceneMgr::DrawAllObject()
 
 			else if (m_pObjects[i]->Get_Type() == OBJECT_BULLET)
 			{
-				 m_pRenderer->DrawSolidRect(
+				m_pRenderer->DrawSolidRect(
 					m_pObjects[i]->Get_X(),
 					m_pObjects[i]->Get_Y(),
 					m_pObjects[i]->Get_Z(),
@@ -563,7 +567,7 @@ void CSceneMgr::DrawAllObject()
 						m_pObjects[i]->Get_Y(),
 						m_pObjects[i]->Get_Z(),
 						m_pObjects[i]->Get_Size(),
-						1, 1, 1, 1,
+						0, 0, 0.5, 1,
 						- m_pObjects[i]->Get_Vector_X(),
 						- m_pObjects[i]->Get_Vector_Y(),
 						m_particleTexture,
