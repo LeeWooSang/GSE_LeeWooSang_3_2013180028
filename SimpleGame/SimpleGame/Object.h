@@ -17,6 +17,9 @@ public:
 	float Get_Z()																			{ return m_fz; }
 	void Set_Z(float val)																{ m_fz = val; }
 
+	float Get_Vector_X() { return m_vector[0]; }
+	float Get_Vector_Y() { return m_vector[1]; }
+
 	float Get_Size()																		{ return m_fsize; }
 	void Set_Size(float val)															{ m_fsize = val; }
 
@@ -70,17 +73,8 @@ public:
 	void Set_Damage(float val)													{ m_life -= val; }
 	void Set_Damage_Gauge(float val)										{ m_fgauge -= val; }
 
-	int Get_Animation_Sheet1() { return m_animation_sheet1; }
-	void Set_Animation_Sheet1(int val) { m_animation_sheet1 = val; }
-
-	int Get_Animation_Sheet2() { return m_animation_sheet2; }
-	void Set_Animation_Sheet2(int val) { m_animation_sheet2 = val; }
-
-	float Get_Animation_LastSheet1() { return m_last_animation_sheet1; }
-	void Set_Animation_LastSheet1(int val) { m_last_animation_sheet1 = val; }
-
-	float Get_Animation_LastSheet2() { return m_last_animation_sheet2; }
-	void Set_Animation_LastSheet2(int val) { m_last_animation_sheet2 = val; }
+	bool Get_Death() { return m_Death; }
+	void Set_Death(bool val) { m_Death = true; }
 
 public:
 	void Update(float elapsedTime );
@@ -116,10 +110,6 @@ private:
 	int m_parentID;
 	int m_teamType;
 
-	int m_animation_sheet1;
-	int m_animation_sheet2;
-
-	float m_last_animation_sheet1;
-	float m_last_animation_sheet2;
+	bool m_Death = false;
 };
 

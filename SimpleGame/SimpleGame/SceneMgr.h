@@ -37,6 +37,7 @@ private:
 	float REDTEAM_Cooltime = 0.f;
 
 	float Particle_Cooltime = 0.f;
+	float Background_Particle_Cooltime = 0.f;
 
 	int BLUETEAM_sheet1_1 = 0;
 	int BLUETEAM_sheet1_2 = 0;
@@ -47,11 +48,18 @@ private:
 	int objectType;
 
 	GLuint m_Background_Texture = 0;
-	GLuint m_REDTEAM_buildingTexture = 0;
+
+	GLuint m_REDTEAM_KING_buildingTexture = 0;
+	GLuint m_REDTEAM_PRIENCESS_buildingTexture = 0;
 	GLuint m_REDTEAM_characterTexture = 0;
-	GLuint m_BLUETEAM_buildingTexture = 0;
+
+	GLuint m_BLUETEAM_KING_buildingTexture = 0;
+	GLuint m_BLUETEAM_PRIENCESS_buildingTexture = 0;
 	GLuint m_BLUETEAM_characterTexture = 0;
 
 	GLuint m_particleTexture = 0;
+	GLuint m_collison_particleTexture = 0;
+	GLuint m_Background_particleTexture = 0;
+
 };
 

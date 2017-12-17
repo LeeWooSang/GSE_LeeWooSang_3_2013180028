@@ -14,9 +14,7 @@ CObject::CObject(float x, float y, int type , int teamType) :
 	m_parentID(-1),
 	m_lastBullet(0.f),
 	m_lastArrow(0.f),
-	m_teamType(teamType),
-	m_animation_sheet1(0),
-	m_animation_sheet2(0)
+	m_teamType(teamType)
 {
 
 	if (type == OBJECT_BUILDING)
@@ -32,7 +30,7 @@ CObject::CObject(float x, float y, int type , int teamType) :
 		m_fspeed = 0.f;
 		m_flevel = 0.1f;
 
-		m_fsize = 100;
+		m_fsize = 70;
 		m_life = 500;
 
 		m_lifeTime = 100000.f;
@@ -151,8 +149,6 @@ void CObject::Update(float elapsedTime)
 	m_lastBullet += elapsedTimeInSecond;
 	m_lastArrow += elapsedTimeInSecond;
 
-	m_last_animation_sheet1 += elapsedTimeInSecond;
-	m_last_animation_sheet2 += elapsedTimeInSecond;
 
 	// 현재위치 = 이전위치 + 속도 * 시간
 	m_fx = m_fx + m_fspeed * m_vector[0] * elapsedTimeInSecond;
@@ -177,18 +173,18 @@ void CObject::Update(float elapsedTime)
 			m_life = 0.f;			
 	}
 
-	if (m_fy > 400)
+	if (m_fy > 300)
 	{
-		m_fy = 400;
+		m_fy = 300;
 		m_vector[1] = -m_vector[1];
 
 		if (m_type == OBJECT_BULLET || m_type == OBJECT_ARROW)
 			m_life = 0.f;
 	}
 
-	if (m_fy < -400)
+	if (m_fy < -300)
 	{
-		m_fy = -400;
+		m_fy = -300;
 		m_vector[1] = -m_vector[1];
 
 		if (m_type == OBJECT_BULLET || m_type == OBJECT_ARROW)

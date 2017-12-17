@@ -62,8 +62,8 @@ void MouseInput(int button, int state, int x, int y)
 			if (CoolTime <= 0.f && (Window_Half_HEIGHT)-y < 0.f)
 			{
 				g_pSceneMgr->InitObject(x - (Window_Half_WIDTH), (Window_Half_HEIGHT)-y, OBJECT_CHARACTER, BLUE_TEAM);
-				// 마우스 쿨타임 3초
-				CoolTime = 3.f;
+
+				CoolTime = INIT_BLUE_TEAM_CHARACTER_TIME;
 				MouseCool = false;
 			}
 		}
@@ -112,13 +112,13 @@ int main(int argc, char **argv)
 
    g_pSceneMgr = new CSceneMgr(WIDTH, HEIGHT);
 
-   g_pSceneMgr->InitObject(0, 300, OBJECT_BUILDING, RED_TEAM);
-   g_pSceneMgr->InitObject(-150, 300, OBJECT_BUILDING, RED_TEAM);
-   g_pSceneMgr->InitObject(150, 300, OBJECT_BUILDING, RED_TEAM);
+   g_pSceneMgr->InitObject(-185, 195, OBJECT_BUILDING, RED_TEAM);
+   g_pSceneMgr->InitObject(KING_TOWER_POS_X, 250, OBJECT_BUILDING, RED_TEAM);
+   g_pSceneMgr->InitObject(180, 195, OBJECT_BUILDING, RED_TEAM);
 
-   g_pSceneMgr->InitObject(0, -300, OBJECT_BUILDING, BLUE_TEAM);
-   g_pSceneMgr->InitObject(-150, -300, OBJECT_BUILDING, BLUE_TEAM);
-   g_pSceneMgr->InitObject(150, -300, OBJECT_BUILDING, BLUE_TEAM);
+   g_pSceneMgr->InitObject(-185, -170, OBJECT_BUILDING, BLUE_TEAM);
+   g_pSceneMgr->InitObject(KING_TOWER_POS_X, -240, OBJECT_BUILDING, BLUE_TEAM);
+   g_pSceneMgr->InitObject(180, -170, OBJECT_BUILDING, BLUE_TEAM);
 
 	g_prevTime = timeGetTime();
 
