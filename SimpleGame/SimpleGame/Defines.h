@@ -13,9 +13,6 @@ using namespace std;
 
 #define KING_TOWER_POS_X 0
 
-#define RED_TEAM 0
-#define BLUE_TEAM 1
-
 #define MAX_OBJECTS_COUNT 300
 
 #define OBJECT_CHARACTER 0
@@ -25,8 +22,11 @@ using namespace std;
 
 #define ANIMATION_COOLTIME 0.1f
 
-#define INIT_RED_TEAM_CHARACTER_TIME 1.f
-#define INIT_BLUE_TEAM_CHARACTER_TIME 1.f
+#define RED_TEAM 0
+#define BLUE_TEAM 1
 
-#define INIT_BULLET_TIME 1.f
-#define INIT_ARROW_TIME 1.f
+#define INIT_RED_TEAM_CHARACTER_TIME 3.f
+#define INIT_BLUE_TEAM_CHARACTER_TIME 3.f
+
+#define INIT_BULLET_TIME 3.f
+#define INIT_ARROW_TIME 3.f

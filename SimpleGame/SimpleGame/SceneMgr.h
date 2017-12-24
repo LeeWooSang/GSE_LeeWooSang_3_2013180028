@@ -48,7 +48,7 @@ private:
 	int REDTEAM_sheet2_2 = 0;
 	
 	int objectType;
-
+	
 	GLuint m_Background_Texture = 0;
 
 	GLuint m_REDTEAM_KING_buildingTexture = 0;

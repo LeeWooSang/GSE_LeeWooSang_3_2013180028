@@ -10,6 +10,7 @@ DWORD g_prevTime = 0;
 bool ButtonDown = false;
 float CoolTime = 0.f;
 bool MouseCool = false;
+bool GameStart = false;
 
 void RenderScene(void)
 {

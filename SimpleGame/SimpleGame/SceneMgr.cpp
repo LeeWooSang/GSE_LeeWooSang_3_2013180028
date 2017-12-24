@@ -14,6 +14,7 @@ CSceneMgr::CSceneMgr(int WindowWidth , int WindowHeight)
 	{
 		m_pObjects[i] = NULL;
 	}
+	
 	m_Background_Texture =  m_pRenderer->CreatePngTexture("./Textures/PNGs/background.png");
 
 	m_REDTEAM_KING_buildingTexture =  m_pRenderer->CreatePngTexture("./Textures/PNGs/RedKingTower.png");
@@ -29,6 +30,8 @@ CSceneMgr::CSceneMgr(int WindowWidth , int WindowHeight)
 	m_Background_particleTexture = m_pRenderer->CreatePngTexture("./Textures/PNGs/spark_particle.png");
 
 	m_pSound = new Sound();
+
+	// 듣고싶은 음악 틀어요
 
 	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/AboveTheTreetops/AboveTheTreetops.mp3");						// 리스항구
 	//m_Background_BGM = m_pSound->CreateSound("./Sounds/MapleStory/FloralLife/FloralLife.mp3");												// 헤네시스
@@ -161,9 +164,6 @@ void CSceneMgr::UpdateAllObject(float elapsedTime)
 					// 3초마다 총알 생성
 					if (m_pObjects[i]->Get_LastBullet() > INIT_BULLET_TIME)
 					{
-						//if (Particle_Cooltime > 1.f)
-							//Particle_Cooltime = 0.f;
-
 						int bulletID = InitObject(m_pObjects[i]->Get_X(), m_pObjects[i]->Get_Y(), OBJECT_BULLET, m_pObjects[i]->Get_TeamType());
 						m_pObjects[i]->Set_LastBullet(0.f);
 						if (bulletID >= 0)
@@ -356,9 +356,10 @@ void CSceneMgr::DoColisionTest()
 	
 void CSceneMgr::DrawAllObject()
 {
+	// 대기화면
+
 	// 배경 이미지 추가
 	 m_pRenderer->DrawTexturedRect(0, 0, 0, 600, 1, 1, 1, 1, m_Background_Texture, 0.99);
-
 	m_pRenderer->DrawParticleClimate(0, 0, 0, 3, 1, 1, 1, 1, -0.1, -0.1, m_Background_particleTexture, Background_Particle_Cooltime, 0.01);
 
 	 // 텍스트 추가

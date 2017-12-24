@@ -143,7 +143,6 @@ CObject::~CObject()
 
 void CObject::Update(float elapsedTime)
 {
-
 	float elapsedTimeInSecond = elapsedTime * 0.001f ;
 	
 	m_lastBullet += elapsedTimeInSecond;
@@ -155,36 +154,36 @@ void CObject::Update(float elapsedTime)
 	m_fy = m_fy + m_fspeed * m_vector[1] * elapsedTimeInSecond;
 	
 
-	if (m_fx > 250)
+	if (m_fx > Window_Half_WIDTH)
 	{
-		m_fx = 250;
+		m_fx = Window_Half_WIDTH;
 		m_vector[0] = -m_vector[0];
 
 		if (m_type == OBJECT_BULLET || m_type == OBJECT_ARROW)
 			m_life = 0.f;
 	}
 
-	if (m_fx < -250)
+	if (m_fx < -Window_Half_WIDTH)
 	{
-		m_fx = -250;
+		m_fx = -Window_Half_WIDTH;
 		m_vector[0] = -m_vector[0];
 
 		if (m_type == OBJECT_BULLET || m_type == OBJECT_ARROW)
 			m_life = 0.f;			
 	}
 
-	if (m_fy > 300)
+	if (m_fy > Window_Half_HEIGHT)
 	{
-		m_fy = 300;
+		m_fy = Window_Half_HEIGHT;
 		m_vector[1] = -m_vector[1];
 
 		if (m_type == OBJECT_BULLET || m_type == OBJECT_ARROW)
 			m_life = 0.f;
 	}
 
-	if (m_fy < -300)
+	if (m_fy < -Window_Half_HEIGHT)
 	{
-		m_fy = -300;
+		m_fy = -Window_Half_HEIGHT;
 		m_vector[1] = -m_vector[1];
 
 		if (m_type == OBJECT_BULLET || m_type == OBJECT_ARROW)
